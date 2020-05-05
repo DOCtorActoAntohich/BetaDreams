@@ -13,14 +13,20 @@ namespace beta {
 		Window();
 		~Window();
 
-		int32_t getWidth() const;
-		int32_t getHeight() const;
-		std::string getTitle() const;
+		int32_t getWidth() const noexcept;
+		int32_t getHeight() const noexcept;
+		std::string getTitle() const noexcept;
 
-		bool shouldClose();
+		bool shouldClose() const noexcept;
 		void swapBuffers();
 
+		void close();
+
 	private:
+
+		friend class Events;
+
+		GLFWwindow* getWindow() const noexcept;
 
 		GLFWwindow* m_window;
 	};

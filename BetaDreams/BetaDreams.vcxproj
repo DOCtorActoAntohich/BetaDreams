@@ -22,12 +22,14 @@
     <ClCompile Include="src\exception\BetaException.cpp" />
     <ClCompile Include="src\Helper.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\system\Events.cpp" />
     <ClCompile Include="src\system\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\exception\BetaException.h" />
     <ClInclude Include="include\Helper.h" />
     <ClInclude Include="include\exception\Exceptions.h" />
+    <ClInclude Include="include\system\Events.h" />
     <ClInclude Include="include\system\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
