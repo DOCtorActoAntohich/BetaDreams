@@ -6,6 +6,8 @@
 
 #include "system/Window.h"
 
+
+
 int main(int argc, char** argv) {
 	beta::Window window;
 

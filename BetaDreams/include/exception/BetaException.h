@@ -5,9 +5,9 @@
 #include <string>
 
 namespace beta {
-	class Exception : public std::exception {
+	class BetaException : public std::exception {
 	public:
-		Exception(std::string message);
+		BetaException(std::string message);
 
 		const char* what() const noexcept;
 	private:

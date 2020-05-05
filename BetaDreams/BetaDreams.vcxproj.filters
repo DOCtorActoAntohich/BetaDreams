@@ -3,15 +3,13 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Helper.cpp" />
-    <ClCompile Include="src\exception\Exception.cpp" />
-    <ClCompile Include="src\exception\InitializationException.cpp" />
     <ClCompile Include="src\system\Window.cpp" />
+    <ClCompile Include="src\exception\BetaException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Helper.h" />
-    <ClInclude Include="include\exception\Exception.h" />
     <ClInclude Include="include\exception\Exceptions.h" />
-    <ClInclude Include="include\exception\InitializationException.h" />
     <ClInclude Include="include\system\Window.h" />
+    <ClInclude Include="include\exception\BetaException.h" />
   </ItemGroup>
 </Project>

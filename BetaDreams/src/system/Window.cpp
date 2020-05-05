@@ -18,8 +18,8 @@ Window::Window() {
 	);
 
 	if (m_window == nullptr) {
-		throw InitializationException(Helper::getGlfwError());
 		glfwTerminate();
+		throw InitializationException(Helper::getGlfwError());
 	}
 	
 	glViewport(0, 0, this->getWidth(), this->getHeight());
@@ -73,7 +73,3 @@ bool Window::shouldClose() {
 void Window::swapBuffers() {
 	glfwSwapBuffers(m_window);
 }
-
-
-
-
