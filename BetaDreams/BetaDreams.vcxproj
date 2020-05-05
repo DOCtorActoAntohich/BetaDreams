@@ -85,29 +85,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\fairy\source\repos\BetaDreams\Libraries\glfw-3.3.2.bin.WIN32\include;C:\Users\fairy\source\repos\BetaDreams\Libraries\glew-2.1.0\include;C:\Users\fairy\source\repos\BetaDreams\BetaDreams\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\fairy\source\repos\BetaDreams\Libraries\glfw-3.3.2.bin.WIN32\lib-vc2019;C:\Users\fairy\source\repos\BetaDreams\Libraries\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\fairy\source\repos\BetaDreams\Libraries\glfw-3.3.2.bin.WIN32\include;C:\Users\fairy\source\repos\BetaDreams\Libraries\glew-2.1.0\include;C:\Users\fairy\source\repos\BetaDreams\BetaDreams\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\fairy\source\repos\BetaDreams\Libraries\glfw-3.3.2.bin.WIN32\lib-vc2019;C:\Users\fairy\source\repos\BetaDreams\Libraries\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\fairy\source\repos\BetaDreams\Libraries\glfw-3.3.2.bin.WIN32\include;C:\Users\fairy\source\repos\BetaDreams\Libraries\glew-2.1.0\include;C:\Users\fairy\source\repos\BetaDreams\BetaDreams\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\fairy\source\repos\BetaDreams\Libraries\glfw-3.3.2.bin.WIN32\lib-vc2019;C:\Users\fairy\source\repos\BetaDreams\Libraries\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\fairy\source\repos\BetaDreams\Libraries\glfw-3.3.2.bin.WIN32\include;C:\Users\fairy\source\repos\BetaDreams\Libraries\glew-2.1.0\include;C:\Users\fairy\source\repos\BetaDreams\BetaDreams\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\fairy\source\repos\BetaDreams\Libraries\glfw-3.3.2.bin.WIN32\lib-vc2019;C:\Users\fairy\source\repos\BetaDreams\Libraries\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
@@ -122,11 +122,11 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;GLu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Resources\DLL\glew32.dll" "$(OutDir)" /Y
-xcopy "$(SolutionDir)Resources\DLL\glfw3.dll" "$(OutDir)" /Y</Command>
+      <Command>xcopy "$(SolutionDir)Libraries\glew-2.1.0\bin\$(Configuration)\$(Platform)\glew32.dll" "$(OutDir)" /Y
+xcopy "$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\glfw3.dll" "$(OutDir)" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -140,8 +140,12 @@ xcopy "$(SolutionDir)Resources\DLL\glfw3.dll" "$(OutDir)" /Y</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;GLu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Libraries\glew-2.1.0\bin\$(Configuration)\$(Platform)\glew32.dll" "$(OutDir)" /Y
+xcopy "$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\glfw3.dll" "$(OutDir)" /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -158,8 +162,12 @@ xcopy "$(SolutionDir)Resources\DLL\glfw3.dll" "$(OutDir)" /Y</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;GLu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Libraries\glew-2.1.0\bin\$(Configuration)\$(Platform)\glew32.dll" "$(OutDir)" /Y
+xcopy "$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\glfw3.dll" "$(OutDir)" /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -176,8 +184,12 @@ xcopy "$(SolutionDir)Resources\DLL\glfw3.dll" "$(OutDir)" /Y</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;GLu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Libraries\glew-2.1.0\bin\$(Configuration)\$(Platform)\glew32.dll" "$(OutDir)" /Y
+xcopy "$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\glfw3.dll" "$(OutDir)" /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
