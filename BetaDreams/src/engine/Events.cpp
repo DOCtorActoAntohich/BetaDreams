@@ -1,8 +1,8 @@
-#include "system/Events.h"
+#include "engine/Events.h"
 
 #include <algorithm>
 
-using namespace beta;
+using namespace beta::engine;
 
 
 
@@ -18,20 +18,18 @@ Events::Events(const Window& window) {
 	m_isCursorStarted = false;
 	m_isCursorLocked = false;
 
-	m_sourceWindow = window.getWindow();
-	glfwSetWindowUserPointer(m_sourceWindow, this);
+	GLFWwindow*  sourceWindow = window.getWindow();
+	glfwSetWindowUserPointer(sourceWindow, this);
 
-	glfwSetKeyCallback(m_sourceWindow, Events::keyboardCallback);
-	glfwSetMouseButtonCallback(m_sourceWindow, Events::mouseCallback);
-	glfwSetCursorPosCallback(m_sourceWindow, Events::cursorPositionCallback);
+	glfwSetKeyCallback(sourceWindow, Events::keyboardCallback);
+	glfwSetMouseButtonCallback(sourceWindow, Events::mouseCallback);
+	glfwSetCursorPosCallback(sourceWindow, Events::cursorPositionCallback);
 }
 
 
 
 void Events::pollEvents() {
 	++m_currentFrame;
-
-	m_xMouseDelta = m_yMousePos = 0.0;
 
 	glfwPollEvents();
 }
@@ -78,13 +76,6 @@ inline void Events::updateKeyboardKeyState(int32_t key, int32_t scancode, int32_
 
 
 
-inline void Events::keyboardCallback(GLFWwindow* window, int32_t key, int32_t scancode, int32_t action, int32_t mode) {
-	auto instance = static_cast<Events*>(glfwGetWindowUserPointer(window));
-	instance->updateKeyboardKeyState(key, scancode, action, mode);
-}
-
-
-
 inline void Events::updateMouseButtonState(int32_t button, int32_t action, int32_t mode) {
 	if (action == GLFW_PRESS) {
 		m_keyboardKeysState[button].isPressed = true;
@@ -93,13 +84,6 @@ inline void Events::updateMouseButtonState(int32_t button, int32_t action, int32
 		m_keyboardKeysState[button].isPressed = false;
 	}
 	m_keyboardKeysState[button].frame = m_currentFrame;
-}
-
-
-
-inline void Events::mouseCallback(GLFWwindow* window, int32_t button, int32_t action, int32_t mode) {
-	auto instance = static_cast<Events*>(glfwGetWindowUserPointer(window));
-	instance->updateMouseButtonState(button, action, mode);
 }
 
 
@@ -116,6 +100,18 @@ inline void Events::updateCursorPosition(double_t xpos, double_t ypos) {
 	m_yMousePos = ypos;
 }
 
+
+
+inline void Events::keyboardCallback(GLFWwindow* window, int32_t key, int32_t scancode, int32_t action, int32_t mode) {
+	auto instance = static_cast<Events*>(glfwGetWindowUserPointer(window));
+	instance->updateKeyboardKeyState(key, scancode, action, mode);
+}
+
+
+inline void Events::mouseCallback(GLFWwindow* window, int32_t button, int32_t action, int32_t mode) {
+	auto instance = static_cast<Events*>(glfwGetWindowUserPointer(window));
+	instance->updateMouseButtonState(button, action, mode);
+}
 
 
 inline void Events::cursorPositionCallback(GLFWwindow* window, double_t xpos, double_t ypos) {

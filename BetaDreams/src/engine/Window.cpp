@@ -1,9 +1,9 @@
-#include "system/Window.h"
+#include "engine/Window.h"
 
 #include "exception/Exceptions.h"
 #include "Helper.h"
 
-using namespace beta;
+using namespace beta::engine;
 
 
 Window::Window() {

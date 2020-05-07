@@ -4,6 +4,9 @@
 #include "exception/BetaException.h"
 
 namespace beta {
+	/**
+	 * An exception that should occur if something failed to initialize.
+	 */
 	class InitializationException : public BetaException {
 	public:
 		InitializationException(std::string message) : BetaException(message) {}
@@ -11,4 +14,4 @@ namespace beta {
 }
 
 
-#endif // _BETA_EXCEPTIONS_H
+#endif // !_BETA_EXCEPTIONS_H

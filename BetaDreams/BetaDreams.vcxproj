@@ -20,17 +20,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\exception\BetaException.cpp" />
+    <ClCompile Include="src\graphics\Shader.cpp" />
     <ClCompile Include="src\Helper.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\system\Events.cpp" />
-    <ClCompile Include="src\system\Window.cpp" />
+    <ClCompile Include="src\engine\Events.cpp" />
+    <ClCompile Include="src\engine\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\exception\BetaException.h" />
+    <ClInclude Include="include\graphics\Shader.h" />
     <ClInclude Include="include\Helper.h" />
     <ClInclude Include="include\exception\Exceptions.h" />
-    <ClInclude Include="include\system\Events.h" />
-    <ClInclude Include="include\system\Window.h" />
+    <ClInclude Include="include\engine\Events.h" />
+    <ClInclude Include="include\engine\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PostBuildCopy.bat" />
+    <None Include="resource\shader\main.glslf" />
+    <None Include="resource\shader\main.glslv" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -85,29 +92,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)include\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\libpng-1.2.37\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\libpng-1.2.37\lib\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)include\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\libpng-1.2.37\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\libpng-1.2.37\lib\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)include\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\libpng-1.2.37\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\libpng-1.2.37\lib\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(ProjectDir)include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)include\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\libpng-1.2.37\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\libpng-1.2.37\lib\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
@@ -118,15 +125,15 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4098</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;libpng.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Libraries\glew-2.1.0\bin\$(Configuration)\$(Platform)\glew32.dll" "$(OutDir)" /Y
-xcopy "$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\glfw3.dll" "$(OutDir)" /Y</Command>
+      <Command>call PostBuildCopy.bat $(SolutionDir) $(ProjectDir) $(OutDir) $(Configuration) $(Platform)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -136,11 +143,12 @@ xcopy "$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\glfw3.dll" "$(OutDir)" /Y</
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4098</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;libpng.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Libraries\glew-2.1.0\bin\$(Configuration)\$(Platform)\glew32.dll" "$(OutDir)" /Y
@@ -156,13 +164,14 @@ xcopy "$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\glfw3.dll" "$(OutDir)" /Y</
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4098</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;libpng.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Libraries\glew-2.1.0\bin\$(Configuration)\$(Platform)\glew32.dll" "$(OutDir)" /Y
@@ -178,13 +187,14 @@ xcopy "$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\glfw3.dll" "$(OutDir)" /Y</
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4098</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;libpng.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Libraries\glew-2.1.0\bin\$(Configuration)\$(Platform)\glew32.dll" "$(OutDir)" /Y
