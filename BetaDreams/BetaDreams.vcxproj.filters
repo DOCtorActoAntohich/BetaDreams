@@ -7,18 +7,26 @@
     <ClCompile Include="src\engine\Events.cpp" />
     <ClCompile Include="src\engine\Window.cpp" />
     <ClCompile Include="src\graphics\Shader.cpp" />
+    <ClCompile Include="include\graphics\Texture.h" />
+    <ClCompile Include="src\graphics\Texture.cpp" />
+    <ClCompile Include="src\App.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Helper.h" />
-    <ClInclude Include="include\exception\Exceptions.h" />
     <ClInclude Include="include\exception\BetaException.h" />
     <ClInclude Include="include\engine\Events.h" />
     <ClInclude Include="include\engine\Window.h" />
+    <ClInclude Include="include\exception\Exceptions.hpp" />
+    <ClInclude Include="include\App.h" />
     <ClInclude Include="include\graphics\Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resource\shader\main.glslv" />
+    <None Include="PostBuildDebug.bat" />
+    <None Include="PostBuildRelease.bat" />
     <None Include="resource\shader\main.glslf" />
-    <None Include="PostBuildCopy.bat" />
+    <None Include="resource\shader\main.glslv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\texture\test.png" />
   </ItemGroup>
 </Project>

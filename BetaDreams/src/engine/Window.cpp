@@ -1,6 +1,6 @@
 #include "engine/Window.h"
 
-#include "exception/Exceptions.h"
+#include "exception/Exceptions.hpp"
 #include "Helper.h"
 
 using namespace beta::engine;
@@ -17,7 +17,7 @@ Window::Window() {
 		this->getWidth(), this->getHeight(),
 		this->getTitle().c_str(), nullptr, nullptr
 	);
-
+	
 	if (m_window == nullptr) {
 		glfwTerminate();
 		throw InitializationException(Helper::getGlfwError());
