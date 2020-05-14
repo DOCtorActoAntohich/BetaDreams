@@ -1,3 +1,6 @@
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "Helper.h"
 
 using namespace beta;
@@ -19,24 +22,6 @@ std::string Helper::getGlfwError() {
 
 
 std::string Helper::getGlewError(const GLenum code) {
-	char* buffer = (char*)glewGetErrorString(code);
+	const char* buffer = reinterpret_cast<const char*>(glewGetErrorString(code));
 	return std::string(buffer);
-}
-
-
-
-std::string Helper::getGlShaderInfoLog(GLuint id) {
-	static const uint32_t SIZE = 512;
-	GLchar infoLog[SIZE];
-	glGetShaderInfoLog(id, SIZE, nullptr, infoLog);
-	return std::string(infoLog);
-}
-
-
-
-std::string Helper::getGlProgramInfoLog(GLuint id) {
-	static const uint32_t SIZE = 512;
-	GLchar infoLog[SIZE];
-	glGetProgramInfoLog(id, SIZE, nullptr, infoLog);
-	return std::string(infoLog);
 }

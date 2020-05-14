@@ -1,4 +1,7 @@
-#include "graphics/Shader.h"
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+#include "graphics/ShaderProgram.h"
 
 #include <fstream>
 #include <iostream>
@@ -15,34 +18,34 @@ using namespace beta::graphics;
 
 
 
-Shader::LoadException::LoadException(std::string message) : BetaException(message)
+ShaderProgram::LoadException::LoadException(std::string message) : BetaException(message)
 {	}
 
 
 
 
 
-Shader::Shader() noexcept {}
+ShaderProgram::ShaderProgram() noexcept {}
 
-Shader::Shader(std::string shaderName) {
+ShaderProgram::ShaderProgram(std::string shaderName) {
 	this->load(shaderName);
 }
 
-Shader::Shader(Shader&& other) noexcept {
+ShaderProgram::ShaderProgram(ShaderProgram&& other) noexcept {
 	*this = other;
 }
 
-Shader::~Shader() {}
+ShaderProgram::~ShaderProgram() {}
 
 
 
-void Shader::use() {
+void ShaderProgram::use() {
 	m_shaderProgram.use();
 }
 
 
 
-void Shader::load(std::string shaderName) {
+void ShaderProgram::load(const std::string& shaderName) {
 	static const std::string PATH = "resource/shader/";
 	static const std::string GLSLV = ".glslv";
 	static const std::string GLSLF = ".glslf";
@@ -53,27 +56,27 @@ void Shader::load(std::string shaderName) {
 	try {
 		this->load(vertexFilename, fragmentFilename);
 	}
-	catch (std::istream::failure) {
-		throw Shader::LoadException("Unable to read shader file(s) with name: " + shaderName);
+	catch (std::istream::failure&) {
+		throw ShaderProgram::LoadException("Unable to read shader file(s) with name: " + shaderName);
 	}
 }
 
 
-void Shader::load(std::string vertexFile, std::string fragmentFile) {
-	Shader::My_Shader vertexShader(vertexFile, GL_VERTEX_SHADER);
-	Shader::My_Shader fragmentShader(fragmentFile, GL_FRAGMENT_SHADER);
+void ShaderProgram::load(const std::string& vertexFile, const std::string& fragmentFile) {
+	ShaderProgram::My_Shader vertexShader(vertexFile, GL_VERTEX_SHADER);
+	ShaderProgram::My_Shader fragmentShader(fragmentFile, GL_FRAGMENT_SHADER);
 
 	m_shaderProgram = { vertexShader, fragmentShader };
 }
 
 
 
-Shader& Shader::operator=(Shader& other) noexcept {
+ShaderProgram& ShaderProgram::operator=(ShaderProgram& other) noexcept {
 	*this = std::move(other);
 	return *this;
 }
 
-Shader& Shader::operator=(Shader&& other) noexcept {
+ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept {
 	this->m_shaderProgram = other.m_shaderProgram;
 	other.m_shaderProgram = nullptr;
 
@@ -85,23 +88,23 @@ Shader& Shader::operator=(Shader&& other) noexcept {
 
 
 
-Shader::My_Shader::My_Shader(const std::string& path, const GLenum shaderType) {
+ShaderProgram::My_Shader::My_Shader(const std::string& path, const GLenum shaderType) {
 	std::string code = this->readCode(path);
 	this->compile(code, shaderType);
 }
 
-Shader::My_Shader::~My_Shader() {
+ShaderProgram::My_Shader::~My_Shader() {
 	glDeleteShader(m_shaderId);
 }
 
 
 
-uint32_t Shader::My_Shader::id() const {
+uint32_t ShaderProgram::My_Shader::id() const {
 	return m_shaderId;
 }
 
 
-std::string Shader::My_Shader::readCode(const std::string& path) const {
+std::string ShaderProgram::My_Shader::readCode(const std::string& path) const {
 	std::ifstream programFile(path);
 	if (!programFile.is_open()) {
 		throw std::ifstream::failure("Cannot open file");
@@ -117,15 +120,15 @@ std::string Shader::My_Shader::readCode(const std::string& path) const {
 }
 
 
-void Shader::My_Shader::compile(const std::string& code, const GLenum& shaderType) {
+void ShaderProgram::My_Shader::compile(const std::string& code, const GLenum& shaderType) {
 	static const uint32_t AMOUNT = 1;
 
 	m_shaderId = glCreateShader(shaderType);
 	if (glGetError() == GL_INVALID_ENUM) {
-		throw Shader::LoadException("Invalid shader type provided");
+		throw ShaderProgram::LoadException("Invalid shader type provided");
 	}
 	else if (m_shaderId == 0) {
-		throw Shader::LoadException("Error while creating shader");
+		throw ShaderProgram::LoadException("Error while creating shader");
 	}
 
 	const GLchar* shaderCode_cstr = code.c_str();
@@ -136,8 +139,13 @@ void Shader::My_Shader::compile(const std::string& code, const GLenum& shaderTyp
 	glGetShaderiv(m_shaderId, GL_COMPILE_STATUS, &compilationResult);
 	if (compilationResult == GL_FALSE) {
 		glDeleteShader(m_shaderId);
-		std::string message = Helper::getGlShaderInfoLog(m_shaderId);
-		throw Shader::LoadException(message);
+
+		static const uint32_t BUFFER_SIZE = 512;
+		GLchar infoLog[BUFFER_SIZE];
+		glGetShaderInfoLog(m_shaderId, BUFFER_SIZE, nullptr, infoLog);
+
+		std::string message(infoLog);
+		throw ShaderProgram::LoadException(message);
 	}
 }
 
@@ -145,19 +153,19 @@ void Shader::My_Shader::compile(const std::string& code, const GLenum& shaderTyp
 
 
 
-Shader::My_Program::My_Program() noexcept {
+ShaderProgram::My_Program::My_Program() noexcept {
 	m_programId = 0;
 }
 
-Shader::My_Program::My_Program(Shader::My_Program&& other) noexcept {
+ShaderProgram::My_Program::My_Program(ShaderProgram::My_Program&& other) noexcept {
 	*this = other;
 }
 
 
-Shader::My_Program::My_Program(const std::initializer_list<Shader::My_Shader> shaders) {
+ShaderProgram::My_Program::My_Program(std::initializer_list<ShaderProgram::My_Shader> shaders) {
 	m_programId = glCreateProgram();
 	if (m_programId == 0) {
-		throw Shader::LoadException("Cannot create shader program");
+		throw ShaderProgram::LoadException("Cannot create shader program");
 	}
 
 	for (auto shader = shaders.begin(); shader != shaders.end(); ++shader) {
@@ -175,22 +183,22 @@ Shader::My_Program::My_Program(const std::initializer_list<Shader::My_Shader> sh
 		glGetProgramInfoLog(m_programId, SIZE, nullptr, infoLog);
 
 		glDeleteProgram(m_programId);
-		throw Shader::LoadException(std::string(infoLog));
+		throw ShaderProgram::LoadException(std::string(infoLog));
 	}
 }
 
 
-Shader::My_Program::~My_Program() {
+ShaderProgram::My_Program::~My_Program() {
 	*this = nullptr;
 }
 
 
 
-uint32_t Shader::My_Program::id() const noexcept {
+uint32_t ShaderProgram::My_Program::id() const noexcept {
 	return m_programId;
 }
 
-void Shader::My_Program::use() {
+void ShaderProgram::My_Program::use() {
 	glUseProgram(m_programId);
 	if (glGetError() == GL_INVALID_VALUE) {
 		throw ShaderProgramException("The shader program is empty");
@@ -199,19 +207,19 @@ void Shader::My_Program::use() {
 
 
 
-Shader::My_Program& Shader::My_Program::operator=(My_Program& other) noexcept {
+ShaderProgram::My_Program& ShaderProgram::My_Program::operator=(My_Program& other) noexcept {
 	*this = std::move(other);
 	return *this;
 }
 
-Shader::My_Program& Shader::My_Program::operator=(My_Program&& other) noexcept {
+ShaderProgram::My_Program& ShaderProgram::My_Program::operator=(My_Program&& other) noexcept {
 	this->m_programId = other.m_programId;
 	other.m_programId = 0;
 
 	return *this;
 }
 
-Shader::My_Program& Shader::My_Program::operator=(void* pointer) noexcept {
+ShaderProgram::My_Program& ShaderProgram::My_Program::operator=(void* pointer) noexcept {
 	if (pointer == nullptr) {
 		glDeleteProgram(m_programId);
 		m_programId = 0;

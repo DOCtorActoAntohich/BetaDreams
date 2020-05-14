@@ -1,3 +1,6 @@
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "engine/Window.h"
 
 #include "exception/Exceptions.hpp"
@@ -7,24 +10,7 @@ using namespace beta::engine;
 
 
 Window::Window() {
-	// Initialize GLFW.
-	if (!glfwInit()) {
-		throw InitializationException(Helper::getGlfwError());
-	}
-
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-	m_window = glfwCreateWindow(
-		this->getWidth(), this->getHeight(),
-		this->getTitle().c_str(), nullptr, nullptr
-	);
-	
-	if (m_window == nullptr) {
-		glfwTerminate();
-		throw InitializationException(Helper::getGlfwError());
-	}
-	
-	glViewport(0, 0, this->getWidth(), this->getHeight());
-	glfwMakeContextCurrent(m_window);
+	m_window = m_glfw.createWindow(this->getWidth(), this->getHeight(), this->getTitle(), false);
 
 	// Initialize GLEW.
 	glewExperimental = GL_TRUE;
@@ -32,6 +18,11 @@ Window::Window() {
 	if (result != GLEW_OK) {
 		throw InitializationException(Helper::getGlewError(result));
 	}
+
+	this->setFillColor(utility::Color::cornflowerBlue());
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 }
 
 
@@ -41,8 +32,6 @@ Window::~Window() {
 	if (m_window != nullptr) {
 		glfwDestroyWindow(m_window);
 	}
-
-	glfwTerminate();
 }
 
 
@@ -70,6 +59,19 @@ bool Window::shouldClose() const noexcept {
 
 
 
+void Window::setFillColor(const utility::Color& color) noexcept {
+	auto [r, g, b, a] = color.glComponents();
+	glClearColor(r, g, b, a);
+}
+
+
+
+void Window::clear() const noexcept {
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+
+
 void Window::swapBuffers() {
 	glfwSwapBuffers(m_window);
 }
@@ -77,7 +79,7 @@ void Window::swapBuffers() {
 
 
 void Window::close() {
-	glfwSetWindowShouldClose(m_window, true);
+	glfwSetWindowShouldClose(m_window, GLFW_TRUE);
 }
 
 
@@ -86,4 +88,55 @@ void Window::close() {
 
 GLFWwindow* Window::getWindow() const noexcept {
 	return m_window;
+}
+
+
+
+
+
+bool Window::GlfwState::isInitialized = false;
+bool Window::GlfwState::isWindowCreated = false;
+
+Window::GlfwState::GlfwState() {
+	if (GlfwState::isInitialized) {
+		throw InitializationException("GLFW is already initialized");
+	}
+
+	int32_t initialized = glfwInit();
+	if (initialized == GLFW_FALSE) {
+		throw InitializationException(Helper::getGlfwError());
+	}
+
+	GlfwState::isInitialized = true;
+}
+
+Window::GlfwState::~GlfwState() {
+	if (GlfwState::isInitialized) {
+		GlfwState::isInitialized = false;
+		glfwTerminate();
+	}
+}
+
+
+GLFWwindow* Window::GlfwState::createWindow(uint32_t width, uint32_t height,
+											const std::string& title,
+											bool isResizable) {
+	if (GlfwState::isWindowCreated) {
+		throw InitializationException("Window is already created");
+	}
+
+	glfwWindowHint(GLFW_RESIZABLE, isResizable);
+	GLFWwindow* window = glfwCreateWindow(
+		width, height, title.c_str(), nullptr, nullptr
+	);
+	if (window == nullptr) {
+		throw InitializationException(Helper::getGlfwError());
+	}
+
+	GlfwState::isWindowCreated = true;
+
+	glViewport(0, 0, width, height);
+	glfwMakeContextCurrent(window);
+
+	return window;
 }

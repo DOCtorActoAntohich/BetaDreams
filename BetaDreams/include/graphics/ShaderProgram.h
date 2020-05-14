@@ -1,3 +1,6 @@
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #ifndef _BETA_GRAPHICS_SHADER_H
 #define _BETA_GRAPHICS_SHADER_H
 
@@ -7,23 +10,23 @@
 #include "exception/BetaException.h"
 
 namespace beta::graphics {
-	class Shader {
+	class ShaderProgram {
 	public:
 		class LoadException;
 
-		Shader() noexcept;
-		Shader(std::string shaderName);
-		Shader(Shader&& other) noexcept;
-		Shader(const Shader& other) = delete;
+		ShaderProgram() noexcept;
+		ShaderProgram(std::string shaderName);
+		ShaderProgram(ShaderProgram&& other) noexcept;
+		ShaderProgram(const ShaderProgram& other) = delete;
 
-		~Shader();
+		~ShaderProgram();
 
-		void load(std::string shaderName);
+		void load(const std::string& shaderName);
 
 		void use();
 		
-		Shader& operator=(Shader& other) noexcept;
-		Shader& operator=(Shader&& other) noexcept;
+		ShaderProgram& operator=(ShaderProgram& other) noexcept;
+		ShaderProgram& operator=(ShaderProgram&& other) noexcept;
 
 	private:
 		// RAII wrapper on OpenGL shader program;
@@ -32,9 +35,9 @@ namespace beta::graphics {
 		class My_Program {
 		public:
 			My_Program() noexcept;
-			My_Program(Shader::My_Program& other) = delete;
-			My_Program(Shader::My_Program&& other) noexcept;
-			My_Program(const std::initializer_list<Shader::My_Shader> shaders);
+			My_Program(ShaderProgram::My_Program& other) = delete;
+			My_Program(ShaderProgram::My_Program&& other) noexcept;
+			My_Program(std::initializer_list<ShaderProgram::My_Shader> shaders);
 			~My_Program();
 
 			uint32_t id() const noexcept;
@@ -51,17 +54,17 @@ namespace beta::graphics {
 
 		My_Program m_shaderProgram;
 
-		void load(std::string vertexFile, std::string fragmentFile);
+		void load(const std::string& vertexFile, const std::string& fragmentFile);
 	};
 
 
-	class Shader::LoadException : public BetaException {
+	class ShaderProgram::LoadException : public BetaException {
 	public:
 		LoadException(std::string message);
 	};
 
 
-	class Shader::My_Shader {
+	class ShaderProgram::My_Shader {
 	public:
 		My_Shader(const std::string& path, const GLenum shaderType);
 		~My_Shader();

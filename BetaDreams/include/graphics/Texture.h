@@ -1,17 +1,30 @@
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #ifndef _BETA_GRAPHICS_TEXTURE_H
 #define _BETA_GRAPHICS_TEXTURE_H
 
 #include <string>
 
+
+
 namespace beta::graphics {
 	class Texture {
 	public:
-		Texture(uint32_t id, uint32_t width, uint32_t height);
+		Texture();
+		Texture(const std::string& filename);
+		Texture(Texture& other) = delete;
+		Texture(Texture&& other) noexcept;
 		~Texture();
+
+		uint32_t id() const noexcept;
+		uint32_t width() const noexcept;
+		uint32_t height() const noexcept;
 
 		void bind();
 
-		static Texture* load(std::string file);
+		Texture& operator=(Texture& other);
+		Texture& operator=(Texture&& other) noexcept;
 	private:
 		uint32_t m_id;
 
@@ -20,7 +33,8 @@ namespace beta::graphics {
 	};
 
 
-	extern int32_t _png_load(std::string file, uint32_t& width, uint32_t& height);
+	extern double_t getDisplayExponent();
+	extern int32_t _png_load(const std::string& file, uint32_t& width, uint32_t& height);
 }
 
 #endif // !_BETA_GRAPHICS_TEXTURE_H

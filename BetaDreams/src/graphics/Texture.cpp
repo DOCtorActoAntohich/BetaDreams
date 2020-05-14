@@ -1,3 +1,6 @@
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "graphics/Texture.h"
 
 #include <iostream>
@@ -11,14 +14,20 @@ using namespace beta::graphics;
 
 
 
-Texture::Texture(uint32_t id, uint32_t width, uint32_t height) {
-	m_id = id;
+Texture::Texture()
+    : m_id(0), m_width(0), m_height(0)
+{}
 
-    m_width = width;
-    m_height = height;
+Texture::Texture(const std::string& file) {
+    m_id = beta::graphics::_png_load(file, m_width, m_height);
+    if (m_id == 0) {
+        throw PngLoadException("Could not load texture: " + file);
+    }
 }
 
-
+Texture::Texture(Texture&& other) noexcept {
+    *this = other;
+}
 
 Texture::~Texture() {
 	glDeleteTextures(1, &m_id);
@@ -31,75 +40,41 @@ void Texture::bind() {
 }
 
 
-int32_t beta::graphics::_png_load(std::string filename, uint32_t& width_out, uint32_t& height_out) {
-    using beta::PngLoadException;
 
-    // Open file.
-    FILE* file;
-    fopen_s(&file, filename.c_str(), "rb");
-    if (file == nullptr) {
-        throw PngLoadException("Cannot open file: " + filename);
-    }
+Texture& Texture::operator=(Texture& other) {
+    *this = std::move(other);
+    return *this;
+}
 
-    // Check PNG signature.
-    const int32_t HEADER_SIZE = 8;
-    png_byte header[HEADER_SIZE];
-    fread(header, 1, HEADER_SIZE, file);
-    int32_t is_png = png_sig_cmp(header, 0, HEADER_SIZE);
-    if (is_png != 0) {
-        fclose(file);
-        throw PngLoadException("The file does not have PNG signature: " + filename);
-    }
+Texture& Texture::operator=(Texture&& other) noexcept {
+    this->m_id = other.m_id;
+    this->m_width = other.m_width;
+    this->m_height = other.m_height;
 
-    // Pre-initialize.
-    png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-    if (png_ptr == nullptr) {
-        fclose(file);
-        throw PngLoadException("Not enough memory to initialize PNG basic structure(s)");
-    }
+    other.m_id = 0;
+    other.m_width = 0;
+    other.m_height = 0;
 
-    png_infop info_ptr = png_create_info_struct(png_ptr);
-    if (info_ptr == nullptr) {
-        png_destroy_read_struct(&png_ptr, NULL, NULL);
-        fclose(file);
-        throw PngLoadException("Not enough memory to initialize PNG info structure(s)");
-    }
-    
-    // Go here if somethging after it goes wrong.
-    if (setjmp(png_jmpbuf(png_ptr))) {
-        png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-        fclose(file);
-        throw PngLoadException("Error reading file info: " + filename);
-    }
-
-    // Read PNG info.
-    png_init_io(png_ptr, file);
-    png_set_sig_bytes(png_ptr, HEADER_SIZE);
-    png_read_info(png_ptr, info_ptr);
-
-    // Get attributes.
-    width_out = png_get_image_width(png_ptr, info_ptr);
-    height_out = png_get_image_height(png_ptr, info_ptr);
-
-    int32_t color_type = png_get_color_type(png_ptr, info_ptr);
-    int32_t bit_depth = png_get_bit_depth(png_ptr, info_ptr);
-    
-    int32_t alpha;
-    switch (color_type) {
-    case PNG_COLOR_TYPE_RGBA:
-        alpha = GL_RGBA;
-        break;
-    case PNG_COLOR_TYPE_RGB:
-        alpha = GL_RGB;
-        break;
-    default:
-        png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-        throw PngLoadException("Unsupported color type: " + color_type);
-    }
+    return *this;
+}
 
 
 
+uint32_t Texture::id() const noexcept {
+    return m_id;
+}
 
+uint32_t Texture::width() const noexcept {
+    return m_width;
+}
+
+uint32_t Texture::height() const noexcept {
+    return m_height;
+}
+
+
+
+double_t beta::graphics::getDisplayExponent() {
     double_t LUT_exponent;
 
 #if defined(NeXT)
@@ -131,19 +106,84 @@ int32_t beta::graphics::_png_load(std::string filename, uint32_t& width_out, uin
 #endif
 
     double_t CRT_exponent = 2.2;
-    double_t display_exponent = LUT_exponent * CRT_exponent;
+    return LUT_exponent * CRT_exponent;
+}
 
 
 
+int32_t beta::graphics::_png_load(const std::string& filename, uint32_t& width_out, uint32_t& height_out) {
+    using beta::PngLoadException;
 
+    // Open file.
+    FILE* file;
+    fopen_s(&file, filename.c_str(), "rb");
+    if (file == nullptr) {
+        throw PngLoadException("Cannot open file: " + filename);
+    }
 
+    // Check PNG signature.
+    const int32_t HEADER_SIZE = 8;
+    png_byte header[HEADER_SIZE];
+    fread(header, 1, HEADER_SIZE, file);
+    int32_t is_png = png_sig_cmp(header, 0, HEADER_SIZE);
+    if (is_png != 0) {
+        fclose(file);
+        throw PngLoadException("The file does not have PNG signature: " + filename);
+    }
 
+    // Preinitialize.
+    png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    if (png_ptr == nullptr) {
+        fclose(file);
+        throw PngLoadException("Not enough memory to initialize PNG basic structure(s)");
+    }
+
+    png_infop info_ptr = png_create_info_struct(png_ptr);
+    if (info_ptr == nullptr) {
+        png_destroy_read_struct(&png_ptr, NULL, NULL);
+        fclose(file);
+        throw PngLoadException("Not enough memory to initialize PNG info structure(s)");
+    }
+    
+    // Go here if something after it goes wrong.
+    if (setjmp(png_jmpbuf(png_ptr))) {
+        png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+        fclose(file);
+        throw PngLoadException("Error reading file info: " + filename);
+    }
+
+    // Read PNG info.
+    png_init_io(png_ptr, file);
+    png_set_sig_bytes(png_ptr, HEADER_SIZE);
+    png_read_info(png_ptr, info_ptr);
+
+    // Get attributes.
+    width_out = png_get_image_width(png_ptr, info_ptr);
+    height_out = png_get_image_height(png_ptr, info_ptr);
+
+    int32_t color_type = png_get_color_type(png_ptr, info_ptr);
+    int32_t bit_depth = png_get_bit_depth(png_ptr, info_ptr);
+    
+    int32_t alpha;
+    switch (color_type) {
+    case PNG_COLOR_TYPE_RGBA:
+        alpha = GL_RGBA;
+        break;
+    case PNG_COLOR_TYPE_RGB:
+        alpha = GL_RGB;
+        break;
+    default:
+        png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+        throw PngLoadException("Unsupported color type: " + color_type);
+    }
+    
+    double_t display_exponent = getDisplayExponent();
 
     // Expand PNG.
-    if (color_type == PNG_COLOR_TYPE_PALETTE) {
+    if (color_type == PNG_COLOR_TYPE_PALETTE) { //-V547
         png_set_palette_to_rgb(png_ptr);
     }
-    if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) {
+    if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) { //-V560
         png_set_expand_gray_1_2_4_to_8(png_ptr);
     }
     if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS)) {
@@ -155,7 +195,7 @@ int32_t beta::graphics::_png_load(std::string filename, uint32_t& width_out, uin
         png_set_strip_16(png_ptr);
     }
     // Expand gray to RGB.
-    if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) {
+    if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) { //-V560
         png_set_gray_to_rgb(png_ptr);
     }
 
@@ -168,29 +208,14 @@ int32_t beta::graphics::_png_load(std::string filename, uint32_t& width_out, uin
     png_read_update_info(png_ptr, info_ptr);
 
 
-
-
-
-
-    //int32_t channels = png_get_channels(png_ptr, info_ptr);
+    int32_t channels = png_get_channels(png_ptr, info_ptr);
     uint32_t rowbytes = png_get_rowbytes(png_ptr, info_ptr);
     png_bytep image_data = new png_byte[rowbytes * height_out];
-    if (image_data == nullptr) {
-        png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-        fclose(file);
-        return 0;
-    }
-
     png_bytep* row_pointers = new png_bytep[height_out];
-    if (row_pointers == nullptr) {
-        delete[] image_data;
-        png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-        fclose(file);
-        return 0;
-    }
 
     for (uint32_t i = 0; i < height_out; ++i) {
-        //row_pointers[i] = image_data + i * rowbytes;
+        // Image is flipped just to make it comfortable
+        // to handle in other parts of project.
         row_pointers[height_out - 1 - i] = image_data + i * rowbytes;
     }
     
@@ -200,13 +225,9 @@ int32_t beta::graphics::_png_load(std::string filename, uint32_t& width_out, uin
 
     // Reading finished here.
 
-
-
-    
-
-
+    static const uint32_t AMOUNT = 1;
     GLuint textureId;
-    glGenTextures(1, &textureId);
+    glGenTextures(AMOUNT, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width_out, height_out,
@@ -216,33 +237,13 @@ int32_t beta::graphics::_png_load(std::string filename, uint32_t& width_out, uin
     glBindTexture(GL_TEXTURE_2D, 0);
     
 
-
     delete[] image_data;
     delete[] row_pointers;
 
-    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+    png_destroy_info_struct(png_ptr, &info_ptr);
+    png_destroy_read_struct(&png_ptr, NULL, NULL);
 
     fclose(file);
 
     return textureId;
-}
-
-
-
-Texture* Texture::load(std::string file) {
-    uint32_t width = 0;
-    uint32_t height = 0;
-
-    try {
-        GLuint textureId = beta::graphics::_png_load(file, width, height);
-        if (textureId == 0) {
-            std::cerr << "Could not load texture: " << file << std::endl;
-            return nullptr;
-        }
-        return new Texture(textureId, width, height);
-    }
-    catch (PngLoadException ex) {
-        std::cerr << ex.what() << std::endl;
-        return nullptr;
-    }
 }

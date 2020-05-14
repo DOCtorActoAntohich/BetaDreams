@@ -22,7 +22,8 @@
     <ClCompile Include="include\graphics\Texture.h" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\exception\BetaException.cpp" />
-    <ClCompile Include="src\graphics\Shader.cpp" />
+    <ClCompile Include="src\utility\Color.cpp" />
+    <ClCompile Include="src\graphics\ShaderProgram.cpp" />
     <ClCompile Include="src\graphics\Texture.cpp" />
     <ClCompile Include="src\Helper.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -32,7 +33,8 @@
   <ItemGroup>
     <ClInclude Include="include\App.h" />
     <ClInclude Include="include\exception\BetaException.h" />
-    <ClInclude Include="include\graphics\Shader.h" />
+    <ClInclude Include="include\utility\Color.h" />
+    <ClInclude Include="include\graphics\ShaderProgram.h" />
     <ClInclude Include="include\Helper.h" />
     <ClInclude Include="include\exception\Exceptions.hpp" />
     <ClInclude Include="include\engine\Events.h" />
@@ -216,5 +218,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\glew_mx.redist.11.1.0.1\build\native\glew_mx.redist.targets" Condition="Exists('..\packages\glew_mx.redist.11.1.0.1\build\native\glew_mx.redist.targets')" />
+  </ImportGroup>
 </Project>

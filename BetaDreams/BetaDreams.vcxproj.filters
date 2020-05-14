@@ -6,10 +6,11 @@
     <ClCompile Include="src\exception\BetaException.cpp" />
     <ClCompile Include="src\engine\Events.cpp" />
     <ClCompile Include="src\engine\Window.cpp" />
-    <ClCompile Include="src\graphics\Shader.cpp" />
     <ClCompile Include="include\graphics\Texture.h" />
     <ClCompile Include="src\graphics\Texture.cpp" />
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\utility\Color.cpp" />
+    <ClCompile Include="src\graphics\ShaderProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Helper.h" />
@@ -18,7 +19,8 @@
     <ClInclude Include="include\engine\Window.h" />
     <ClInclude Include="include\exception\Exceptions.hpp" />
     <ClInclude Include="include\App.h" />
-    <ClInclude Include="include\graphics\Shader.h" />
+    <ClInclude Include="include\utility\Color.h" />
+    <ClInclude Include="include\graphics\ShaderProgram.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />
