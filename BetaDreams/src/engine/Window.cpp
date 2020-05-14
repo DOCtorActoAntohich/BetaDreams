@@ -10,7 +10,7 @@ using namespace beta::engine;
 
 
 Window::Window() {
-	m_window = m_glfw.createWindow(this->getWidth(), this->getHeight(), this->getTitle(), false);
+	m_window = m_glfw.createWindow(this->getWidth(), this->getHeight(), this->getTitle(), true);
 
 	// Initialize GLEW.
 	glewExperimental = GL_TRUE;
