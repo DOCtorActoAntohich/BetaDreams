@@ -5,11 +5,21 @@
 #define _BETA_GRAPHICS_SHADER_H
 
 #include <string>
+#include <filesystem>
 #include <GL/glew.h>
 
 #include "exception/BetaException.h"
 
 namespace beta::graphics {
+	enum class ShaderType {
+		VERTEX = GL_VERTEX_SHADER,
+		FRAGMENT = GL_FRAGMENT_SHADER,
+		GEOMETRY = GL_GEOMETRY_SHADER,
+		COMPUTE = GL_COMPUTE_SHADER
+	};
+
+
+
 	class ShaderProgram {
 	public:
 		class LoadException;
@@ -21,7 +31,7 @@ namespace beta::graphics {
 
 		~ShaderProgram();
 
-		void load(const std::string& shaderName);
+		void load(const std::string& name);
 
 		void use();
 		
@@ -29,6 +39,9 @@ namespace beta::graphics {
 		ShaderProgram& operator=(ShaderProgram&& other) noexcept;
 
 	private:
+		static std::string getFileType(const ShaderType type);
+		static std::filesystem::path getShaderPath(const std::string& name, const ShaderType type);
+
 		// RAII wrapper on OpenGL shader program;
 		class My_Shader;
 
@@ -54,8 +67,9 @@ namespace beta::graphics {
 
 		My_Program m_shaderProgram;
 
-		void load(const std::string& vertexFile, const std::string& fragmentFile);
+		void load(const std::filesystem::path& vertexFile, const std::filesystem::path& fragmentFile);
 	};
+
 
 
 	class ShaderProgram::LoadException : public BetaException {
@@ -66,15 +80,15 @@ namespace beta::graphics {
 
 	class ShaderProgram::My_Shader {
 	public:
-		My_Shader(const std::string& path, const GLenum shaderType);
+		My_Shader(const std::filesystem::path& path, const ShaderType shaderType);
 		~My_Shader();
 
 		uint32_t id() const;
 	private:
 		uint32_t m_shaderId;
 
-		std::string readCode(const std::string& path) const;
-		void compile(const std::string& code, const GLenum& shaderType);
+		std::string readCode(const std::filesystem::path& path) const;
+		void compile(const std::string& code, const ShaderType shaderType);
 	};
 	
 

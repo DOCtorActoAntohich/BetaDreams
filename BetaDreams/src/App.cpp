@@ -32,10 +32,11 @@ void App::run() {
 	engine::Window window;
 	engine::Events events(window);
 
-	graphics::ShaderProgram shader("main");
+	graphics::ShaderProgram mainShader("main");
+	graphics::ShaderProgram negativeShader("negative");
 	graphics::Texture texture("resource/texture/test.png");
 
-	shader.use();
+	mainShader.use();
 	texture.bind();
 	
 	GLuint VAO, VBO;
@@ -79,6 +80,12 @@ void App::run() {
 
 		if (events.isKeyJustPressed(GLFW_KEY_ESCAPE)) {
 			window.close();
+		}
+		if (events.isKeyJustPressed(GLFW_MOUSE_BUTTON_1)) {
+			mainShader.use();
+		}
+		else if (events.isKeyJustPressed(GLFW_MOUSE_BUTTON_2)) {
+			negativeShader.use();
 		}
 
 		window.clear();

@@ -43,8 +43,10 @@
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />
     <None Include="PostBuildRelease.bat" />
-    <None Include="resource\shader\main.glslf" />
-    <None Include="resource\shader\main.glslv" />
+    <None Include="resource\shader\main\main.glslf" />
+    <None Include="resource\shader\main\main.glslv" />
+    <None Include="resource\shader\negative\negative.glslf" />
+    <None Include="resource\shader\negative\negative.glslv" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\texture\test.png" />

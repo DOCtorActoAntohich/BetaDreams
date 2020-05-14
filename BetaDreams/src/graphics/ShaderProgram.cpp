@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <iterator>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -45,26 +46,55 @@ void ShaderProgram::use() {
 
 
 
-void ShaderProgram::load(const std::string& shaderName) {
-	static const std::string PATH = "resource/shader/";
-	static const std::string GLSLV = ".glslv";
-	static const std::string GLSLF = ".glslf";
+std::string ShaderProgram::getFileType(const ShaderType type) {
+	switch (type)
+	{
+	case ShaderType::VERTEX:
+		return ".glslv";
 
-	std::string vertexFilename   = PATH + shaderName + GLSLV;
-	std::string fragmentFilename = PATH + shaderName + GLSLF;
+	case ShaderType::FRAGMENT:
+		return ".glslf";
+
+	case ShaderType::GEOMETRY:
+		return ".glslg";
+
+	case ShaderType::COMPUTE:
+		return ".glslc";
+
+	default:
+		throw std::exception("Unknown shader type provided");
+	}
+}
+
+
+
+std::filesystem::path ShaderProgram::getShaderPath(const std::string& name, const ShaderType type) {
+	std::filesystem::path path = "resource/shader";
+	path /= name;
+	path /= name;
+	std::string fileFormat = ShaderProgram::getFileType(type);
+	path += fileFormat;
+	return path;
+}
+
+
+
+void ShaderProgram::load(const std::string& name) {
+	std::filesystem::path vertexFilename = ShaderProgram::getShaderPath(name, ShaderType::VERTEX);
+	std::filesystem::path fragmentFilename = ShaderProgram::getShaderPath(name, ShaderType::FRAGMENT);
 
 	try {
 		this->load(vertexFilename, fragmentFilename);
 	}
 	catch (std::istream::failure&) {
-		throw ShaderProgram::LoadException("Unable to read shader file(s) with name: " + shaderName);
+		throw ShaderProgram::LoadException("Unable to read shader file(s) with name: " + name);
 	}
 }
 
 
-void ShaderProgram::load(const std::string& vertexFile, const std::string& fragmentFile) {
-	ShaderProgram::My_Shader vertexShader(vertexFile, GL_VERTEX_SHADER);
-	ShaderProgram::My_Shader fragmentShader(fragmentFile, GL_FRAGMENT_SHADER);
+void ShaderProgram::load(const std::filesystem::path& vertexFile, const std::filesystem::path& fragmentFile) {
+	ShaderProgram::My_Shader vertexShader(vertexFile, ShaderType::VERTEX);
+	ShaderProgram::My_Shader fragmentShader(fragmentFile, ShaderType::FRAGMENT);
 
 	m_shaderProgram = { vertexShader, fragmentShader };
 }
@@ -88,7 +118,7 @@ ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept {
 
 
 
-ShaderProgram::My_Shader::My_Shader(const std::string& path, const GLenum shaderType) {
+ShaderProgram::My_Shader::My_Shader(const std::filesystem::path& path, const ShaderType shaderType) {
 	std::string code = this->readCode(path);
 	this->compile(code, shaderType);
 }
@@ -104,26 +134,22 @@ uint32_t ShaderProgram::My_Shader::id() const {
 }
 
 
-std::string ShaderProgram::My_Shader::readCode(const std::string& path) const {
+std::string ShaderProgram::My_Shader::readCode(const std::filesystem::path& path) const {
 	std::ifstream programFile(path);
 	if (!programFile.is_open()) {
 		throw std::ifstream::failure("Cannot open file");
 	}
 	programFile.exceptions(std::ifstream::badbit);
 
-	std::stringstream codeStream;
-	codeStream << programFile.rdbuf();
-
-	programFile.close();
-
-	return codeStream.str();
+	std::string code{std::istreambuf_iterator<char>(programFile), std::istreambuf_iterator<char>()};
+	return code;
 }
 
 
-void ShaderProgram::My_Shader::compile(const std::string& code, const GLenum& shaderType) {
+void ShaderProgram::My_Shader::compile(const std::string& code, const ShaderType shaderType) {
 	static const uint32_t AMOUNT = 1;
 
-	m_shaderId = glCreateShader(shaderType);
+	m_shaderId = glCreateShader(static_cast<GLenum>(shaderType));
 	if (glGetError() == GL_INVALID_ENUM) {
 		throw ShaderProgram::LoadException("Invalid shader type provided");
 	}
