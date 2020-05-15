@@ -11,6 +11,8 @@
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\utility\Color.cpp" />
     <ClCompile Include="src\graphics\ShaderProgram.cpp" />
+    <ClCompile Include="src\graphics\VBO.cpp" />
+    <ClCompile Include="src\graphics\VAO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Helper.h" />
@@ -21,6 +23,8 @@
     <ClInclude Include="include\App.h" />
     <ClInclude Include="include\utility\Color.h" />
     <ClInclude Include="include\graphics\ShaderProgram.h" />
+    <ClInclude Include="include\graphics\VBO.h" />
+    <ClInclude Include="include\graphics\VAO.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />

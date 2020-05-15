@@ -9,7 +9,7 @@ using namespace beta::engine;
 
 
 
-Events::Events(const Window& window) {
+Events::Events(Window& window) {
 	m_currentFrame = 0;
 
 	KeyState initialKeyState = { m_currentFrame, false };
@@ -27,6 +27,7 @@ Events::Events(const Window& window) {
 	glfwSetKeyCallback(sourceWindow, Events::keyboardCallback);
 	glfwSetMouseButtonCallback(sourceWindow, Events::mouseCallback);
 	glfwSetCursorPosCallback(sourceWindow, Events::cursorPositionCallback);
+	glfwSetWindowSizeCallback(sourceWindow, Events::windowResizeCallback);
 }
 
 
@@ -120,4 +121,8 @@ inline void Events::mouseCallback(GLFWwindow* window, int32_t button, int32_t ac
 inline void Events::cursorPositionCallback(GLFWwindow* window, double_t xpos, double_t ypos) {
 	auto instance = static_cast<Events*>(glfwGetWindowUserPointer(window));
 	instance->updateCursorPosition(xpos, ypos);
+}
+
+inline void Events::windowResizeCallback(GLFWwindow* window, int32_t width, int32_t height) {
+	glViewport(0, 0, width, height);
 }

@@ -7,6 +7,7 @@
 #include <exception>
 #include <png.h>
 
+
 int main(int argc, char** argv) {
 	beta::App app;
 

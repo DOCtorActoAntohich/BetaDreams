@@ -19,7 +19,7 @@ namespace beta::engine {
 		 * 
 		 * \param window A window to get events from.
 		 */
-		Events(const Window& window);
+		Events(Window& window);
 
 		/**
 		 * Updates the state of keyboard and mouse.
@@ -60,8 +60,9 @@ namespace beta::engine {
 		bool isButtonJustPressed(int32_t code);
 
 	private:
+
 		/**
-		 * Describes a key ora button state at some frame..
+		 * Describes a key or a button state at some frame.
 		 */
 		typedef struct {
 			uint32_t frame;
@@ -90,6 +91,7 @@ namespace beta::engine {
 		static void keyboardCallback(GLFWwindow* window, int32_t key, int32_t scancode, int32_t action, int32_t mode);
 		static void mouseCallback(GLFWwindow* window, int32_t button, int32_t action, int32_t mode);
 		static void cursorPositionCallback(GLFWwindow* window, double_t xpos, double_t ypos);
+		static void windowResizeCallback(GLFWwindow* window, int32_t width, int32_t height);
 	};
 }
 

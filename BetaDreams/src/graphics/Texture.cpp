@@ -124,7 +124,7 @@ int32_t beta::graphics::_png_load(const std::string& filename, uint32_t& width_o
     // Check PNG signature.
     const int32_t HEADER_SIZE = 8;
     png_byte header[HEADER_SIZE];
-    fread(header, 1, HEADER_SIZE, file);
+    fread(header, sizeof(png_byte), sizeof(png_byte) * HEADER_SIZE, file);
     int32_t is_png = png_sig_cmp(header, 0, HEADER_SIZE);
     if (is_png != 0) {
         fclose(file);
@@ -209,14 +209,14 @@ int32_t beta::graphics::_png_load(const std::string& filename, uint32_t& width_o
 
 
     int32_t channels = png_get_channels(png_ptr, info_ptr);
-    uint32_t rowbytes = png_get_rowbytes(png_ptr, info_ptr);
-    png_bytep image_data = new png_byte[rowbytes * height_out];
-    png_bytep* row_pointers = new png_bytep[height_out];
+    size_t rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+    png_bytep image_data = new png_byte[rowbytes * static_cast<size_t>(height_out)];
+    png_bytep* row_pointers = new png_bytep[static_cast<size_t>(height_out)];
 
     for (uint32_t i = 0; i < height_out; ++i) {
         // Image is flipped just to make it comfortable
         // to handle in other parts of project.
-        row_pointers[height_out - 1 - i] = image_data + i * rowbytes;
+        row_pointers[static_cast<size_t>(height_out - 1 - i)] = image_data + static_cast<size_t>(i) * rowbytes;
     }
     
     png_read_image(png_ptr, row_pointers);
