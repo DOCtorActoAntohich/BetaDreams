@@ -10,6 +10,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "exception/BetaException.h"
 #include "utility/Color.h"
 
 
@@ -81,6 +82,13 @@ namespace beta::engine {
 		 */
 		void close();
 
+
+
+		/**
+		 * An exception that should occur if something failed to initialize.
+		 */
+		class InitializationException;
+
 	private:
 
 		class GlfwState final {
@@ -108,7 +116,11 @@ namespace beta::engine {
 	};
 
 
-
+	
+	class Window::InitializationException : public BetaException {
+	public:
+		InitializationException(std::string message);
+	};
 	
 }
 

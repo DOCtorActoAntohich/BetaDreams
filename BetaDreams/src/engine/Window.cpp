@@ -3,10 +3,14 @@
 
 #include "engine/Window.h"
 
-#include "exception/Exceptions.hpp"
 #include "Helper.h"
 
 using namespace beta::engine;
+
+
+Window::InitializationException::InitializationException(std::string message)
+	: BetaException(message) {}
+
 
 
 Window::Window() {

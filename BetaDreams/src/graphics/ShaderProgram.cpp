@@ -11,7 +11,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "exception/Exceptions.hpp"
 #include "Helper.h"
 
 using namespace beta::graphics;

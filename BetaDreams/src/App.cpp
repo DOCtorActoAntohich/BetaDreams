@@ -11,16 +11,12 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-#include "exception/Exceptions.hpp"
-
 #include "engine/Window.h"
 #include "engine/Events.h"
 
 #include "graphics/ShaderProgram.h"
 #include "graphics/Texture.h"
 #include "graphics/VAO.h"
-
-#include "utility/Color.h"
 
 using namespace beta;
 

@@ -6,7 +6,7 @@
 
 #include <string>
 
-
+#include "exception/BetaException.h"
 
 namespace beta::graphics {
 	class Texture {
@@ -32,6 +32,11 @@ namespace beta::graphics {
 		uint32_t m_height;
 	};
 
+
+	class PngLoadException : public BetaException {
+	public:
+		PngLoadException(std::string message);
+	};
 
 	extern double_t getDisplayExponent();
 	extern int32_t _png_load(const std::string& file, uint32_t& width, uint32_t& height);

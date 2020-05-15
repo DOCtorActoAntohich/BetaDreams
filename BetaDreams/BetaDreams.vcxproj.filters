@@ -19,7 +19,6 @@
     <ClInclude Include="include\exception\BetaException.h" />
     <ClInclude Include="include\engine\Events.h" />
     <ClInclude Include="include\engine\Window.h" />
-    <ClInclude Include="include\exception\Exceptions.hpp" />
     <ClInclude Include="include\App.h" />
     <ClInclude Include="include\utility\Color.h" />
     <ClInclude Include="include\graphics\ShaderProgram.h" />

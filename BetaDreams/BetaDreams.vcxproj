@@ -40,7 +40,6 @@
     <ClInclude Include="include\utility\Color.h" />
     <ClInclude Include="include\graphics\ShaderProgram.h" />
     <ClInclude Include="include\Helper.h" />
-    <ClInclude Include="include\exception\Exceptions.hpp" />
     <ClInclude Include="include\engine\Events.h" />
     <ClInclude Include="include\engine\Window.h" />
   </ItemGroup>

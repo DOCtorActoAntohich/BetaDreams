@@ -8,9 +8,11 @@
 #include <GL/glew.h>
 #include <png.h>
 
-#include "exception/Exceptions.hpp"
-
 using namespace beta::graphics;
+
+
+PngLoadException::PngLoadException(std::string message)
+    : BetaException(message) {}
 
 
 
@@ -74,6 +76,8 @@ uint32_t Texture::height() const noexcept {
 
 
 
+
+
 double_t beta::graphics::getDisplayExponent() {
     double_t LUT_exponent;
 
@@ -112,8 +116,6 @@ double_t beta::graphics::getDisplayExponent() {
 
 
 int32_t beta::graphics::_png_load(const std::string& filename, uint32_t& width_out, uint32_t& height_out) {
-    using beta::PngLoadException;
-
     // Open file.
     FILE* file;
     fopen_s(&file, filename.c_str(), "rb");
