@@ -13,8 +13,13 @@ Window::InitializationException::InitializationException(std::string message)
 
 
 
-Window::Window() {
-	m_window = m_glfw.createWindow(this->getWidth(), this->getHeight(), this->getTitle(), true);
+Window::Window() 
+	: MINIMAL_WIDTH(640), MINIMAL_HEIGHT(480) {
+
+	m_width = 800;
+	m_height = 600;
+
+	m_window = m_glfw.createWindow(m_width, m_height, this->title(), true);
 
 	// Initialize GLEW.
 	glewExperimental = GL_TRUE;
@@ -27,6 +32,12 @@ Window::Window() {
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	m_maxWidth  = mode->width;
+	m_maxHeight = mode->height;
+
+	glfwSetWindowSizeLimits(m_window, MINIMAL_WIDTH, MINIMAL_HEIGHT, m_maxWidth, m_maxHeight);
 }
 
 
@@ -40,18 +51,23 @@ Window::~Window() {
 
 
 
-
-int32_t Window::getWidth() const noexcept {
-	return 800;
+int32_t Window::maxWidth() const noexcept {
+	return m_maxWidth;
 }
 
-
-int32_t Window::getHeight() const noexcept {
-	return 600;
+int32_t Window::maxHeight() const noexcept {
+	return m_maxHeight;
 }
 
+int32_t Window::width() const noexcept {
+	return m_width;
+}
 
-std::string Window::getTitle() const noexcept {
+int32_t Window::height() const noexcept {
+	return m_height;
+}
+
+std::string Window::title() const noexcept {
 	return "Beta Dreams";
 }
 
@@ -63,9 +79,29 @@ bool Window::shouldClose() const noexcept {
 
 
 
+float_t Window::acpectRatio() const noexcept {
+	return static_cast<float_t>(m_width) / m_height;
+}
+
+
+
+void Window::resize(int32_t width, int32_t height) {
+	m_width = width;
+	m_height = height;
+	glViewport(0, 0, m_width, m_height);
+}
+
+
+
 void Window::setFillColor(const utility::Color& color) noexcept {
 	auto [r, g, b, a] = color.glComponents();
 	glClearColor(r, g, b, a);
+}
+
+
+
+void Window::setCursorMode(CursorMode mode) {
+	glfwSetInputMode(m_window, GLFW_CURSOR, static_cast<int32_t>(mode));
 }
 
 

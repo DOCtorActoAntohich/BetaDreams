@@ -10,6 +10,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/ext.hpp>
 
 #include "Helper.h"
 
@@ -19,6 +20,9 @@ using namespace beta::graphics;
 
 
 ShaderProgram::LoadException::LoadException(std::string message) : BetaException(message)
+{	}
+
+ShaderProgram::UsageException::UsageException(std::string message) : BetaException(message)
 {	}
 
 
@@ -32,7 +36,7 @@ ShaderProgram::ShaderProgram(std::string shaderName) {
 }
 
 ShaderProgram::ShaderProgram(ShaderProgram&& other) noexcept {
-	*this = other;
+	*this = std::move(other);
 }
 
 ShaderProgram::~ShaderProgram() {}
@@ -41,6 +45,13 @@ ShaderProgram::~ShaderProgram() {}
 
 void ShaderProgram::use() {
 	m_shaderProgram.use();
+}
+
+
+
+void ShaderProgram::uniformMatrix(const std::string& name, const glm::mat4& matrix) {
+	GLuint transformLoc = glGetUniformLocation(m_shaderProgram.id(), name.c_str());
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 
@@ -100,13 +111,8 @@ void ShaderProgram::load(const std::filesystem::path& vertexFile, const std::fil
 
 
 
-ShaderProgram& ShaderProgram::operator=(ShaderProgram& other) noexcept {
-	*this = std::move(other);
-	return *this;
-}
-
 ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other) noexcept {
-	this->m_shaderProgram = other.m_shaderProgram;
+	this->m_shaderProgram = std::move(other.m_shaderProgram);
 	other.m_shaderProgram = nullptr;
 
 	return *this;
@@ -183,7 +189,7 @@ ShaderProgram::My_Program::My_Program() noexcept {
 }
 
 ShaderProgram::My_Program::My_Program(ShaderProgram::My_Program&& other) noexcept {
-	*this = other;
+	*this = std::move(other);
 }
 
 
@@ -226,16 +232,11 @@ uint32_t ShaderProgram::My_Program::id() const noexcept {
 void ShaderProgram::My_Program::use() {
 	glUseProgram(m_programId);
 	if (glGetError() == GL_INVALID_VALUE) {
-		throw ShaderProgramException("The shader program is empty");
+		throw ShaderProgram::UsageException("The shader program is empty");
 	}
 }
 
 
-
-ShaderProgram::My_Program& ShaderProgram::My_Program::operator=(My_Program& other) noexcept {
-	*this = std::move(other);
-	return *this;
-}
 
 ShaderProgram::My_Program& ShaderProgram::My_Program::operator=(My_Program&& other) noexcept {
 	this->m_programId = other.m_programId;

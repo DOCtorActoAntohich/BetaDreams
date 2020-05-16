@@ -11,7 +11,7 @@ namespace beta::graphics {
 	public:
 		VBO();
 		VBO(const std::vector<float_t>& data, uint32_t objectComponents);
-		VBO(const VBO& other) = delete;
+		VBO(const VBO& copy) = delete;
 		VBO(VBO&& other) noexcept;
 		~VBO() noexcept;
 
@@ -24,7 +24,7 @@ namespace beta::graphics {
 
 		void setData(const std::vector<float_t>& data, uint32_t objectComponents);
 
-		VBO& operator=(const VBO& other) = delete;
+		VBO& operator=(const VBO& copy) = delete;
 		VBO& operator=(VBO&& other) noexcept;
 		
 	private:

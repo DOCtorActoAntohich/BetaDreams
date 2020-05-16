@@ -9,7 +9,7 @@ using namespace beta::engine;
 
 
 
-Events::Events(Window& window) {
+Events::Events(Window& window) : m_sourceWindow(window) {
 	m_currentFrame = 0;
 
 	KeyState initialKeyState = { m_currentFrame, false };
@@ -21,7 +21,7 @@ Events::Events(Window& window) {
 	m_isCursorStarted = false;
 	m_isCursorLocked = false;
 
-	GLFWwindow*  sourceWindow = window.getWindow();
+	GLFWwindow* sourceWindow = m_sourceWindow.getWindow();
 	glfwSetWindowUserPointer(sourceWindow, this);
 
 	glfwSetKeyCallback(sourceWindow, Events::keyboardCallback);
@@ -34,6 +34,8 @@ Events::Events(Window& window) {
 
 void Events::pollEvents() {
 	++m_currentFrame;
+
+	m_xMouseDelta = m_yMouseDelta = 0;
 
 	glfwPollEvents();
 }
@@ -62,6 +64,41 @@ bool Events::isButtonPressed(int32_t code) {
 
 bool Events::isButtonJustPressed(int32_t code) {
 	return isButtonPressed(code) && m_mouseButtonsState[code].frame == m_currentFrame;
+}
+
+
+
+double_t Events::mouseDeltaX() const noexcept {
+	return m_xMouseDelta;
+}
+
+double_t Events::mouseDeltaY() const noexcept {
+	return m_yMouseDelta;
+}
+
+
+
+void Events::freezeCursor() {
+	m_isCursorLocked = true;
+	m_sourceWindow.setCursorMode(CursorMode::DISABLED);
+}
+
+void Events::unfreezeCursor() {
+	m_isCursorLocked = false;
+	m_sourceWindow.setCursorMode(CursorMode::NORMAL);
+}
+
+void Events::toggleCursor() {
+	if (this->isCursorFrozen()) {
+		this->unfreezeCursor();
+	}
+	else {
+		this->freezeCursor();
+	}
+}
+
+bool Events::isCursorFrozen() const noexcept {
+	return m_isCursorLocked;
 }
 
 
@@ -106,6 +143,12 @@ inline void Events::updateCursorPosition(double_t xpos, double_t ypos) {
 
 
 
+void Events::resizeWindow(int32_t width, int32_t height) {
+	m_sourceWindow.resize(width, height);
+}
+
+
+
 inline void Events::keyboardCallback(GLFWwindow* window, int32_t key, int32_t scancode, int32_t action, int32_t mode) {
 	auto instance = static_cast<Events*>(glfwGetWindowUserPointer(window));
 	instance->updateKeyboardKeyState(key, scancode, action, mode);
@@ -124,5 +167,6 @@ inline void Events::cursorPositionCallback(GLFWwindow* window, double_t xpos, do
 }
 
 inline void Events::windowResizeCallback(GLFWwindow* window, int32_t width, int32_t height) {
-	glViewport(0, 0, width, height);
+	auto instance = static_cast<Events*>(glfwGetWindowUserPointer(window));
+	instance->resizeWindow(width, height);
 }

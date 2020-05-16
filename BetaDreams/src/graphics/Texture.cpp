@@ -28,7 +28,7 @@ Texture::Texture(const std::string& file) {
 }
 
 Texture::Texture(Texture&& other) noexcept {
-    *this = other;
+    *this = std::move(other);
 }
 
 Texture::~Texture() {
@@ -42,11 +42,6 @@ void Texture::bind() {
 }
 
 
-
-Texture& Texture::operator=(Texture& other) {
-    *this = std::move(other);
-    return *this;
-}
 
 Texture& Texture::operator=(Texture&& other) noexcept {
     this->m_id = other.m_id;

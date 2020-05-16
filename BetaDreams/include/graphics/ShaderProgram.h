@@ -6,7 +6,9 @@
 
 #include <string>
 #include <filesystem>
+
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 
 #include "exception/BetaException.h"
 
@@ -23,19 +25,22 @@ namespace beta::graphics {
 	class ShaderProgram {
 	public:
 		class LoadException;
+		class UsageException;
 
 		ShaderProgram() noexcept;
 		ShaderProgram(std::string shaderName);
 		ShaderProgram(ShaderProgram&& other) noexcept;
-		ShaderProgram(const ShaderProgram& other) = delete;
+		ShaderProgram(const ShaderProgram& copy) = delete;
 
 		~ShaderProgram();
 
 		void load(const std::string& name);
 
 		void use();
+
+		void uniformMatrix(const std::string& name, const glm::mat4& matrix);
 		
-		ShaderProgram& operator=(ShaderProgram& other) noexcept;
+		ShaderProgram& operator=(ShaderProgram& copy) = delete;
 		ShaderProgram& operator=(ShaderProgram&& other) noexcept;
 
 	private:
@@ -48,7 +53,7 @@ namespace beta::graphics {
 		class My_Program {
 		public:
 			My_Program() noexcept;
-			My_Program(ShaderProgram::My_Program& other) = delete;
+			My_Program(const ShaderProgram::My_Program& copy) = delete;
 			My_Program(ShaderProgram::My_Program&& other) noexcept;
 			My_Program(std::initializer_list<ShaderProgram::My_Shader> shaders);
 			~My_Program();
@@ -57,7 +62,7 @@ namespace beta::graphics {
 
 			void use();
 
-			My_Program& operator=(My_Program& other) noexcept;
+			My_Program& operator=(My_Program& copy) = delete;
 			My_Program& operator=(My_Program&& other) noexcept;
 			My_Program& operator=(void* pointer) noexcept;
 		private:
@@ -93,11 +98,10 @@ namespace beta::graphics {
 	
 
 
-	class ShaderProgramException : public BetaException {
+	class ShaderProgram::UsageException : public BetaException {
 	public:
-		ShaderProgramException(std::string message) : BetaException(message) {}
+		UsageException(std::string message);
 	};
-	
 }
 
 

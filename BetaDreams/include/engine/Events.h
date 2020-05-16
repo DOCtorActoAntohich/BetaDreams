@@ -59,7 +59,17 @@ namespace beta::engine {
 		 */
 		bool isButtonJustPressed(int32_t code);
 
+		double_t mouseDeltaX() const noexcept;
+		double_t mouseDeltaY() const noexcept;
+
+		void freezeCursor();
+		void unfreezeCursor();
+		void toggleCursor();
+		bool isCursorFrozen() const noexcept;
+
 	private:
+
+		Window& m_sourceWindow;
 
 		/**
 		 * Describes a key or a button state at some frame.
@@ -87,6 +97,7 @@ namespace beta::engine {
 		void updateKeyboardKeyState(int32_t key, int32_t scancode, int32_t action, int32_t mode);
 		void updateMouseButtonState(int32_t button, int32_t action, int32_t mode);
 		void updateCursorPosition(double_t xpos, double_t ypos);
+		void resizeWindow(int32_t width, int32_t height);
 
 		static void keyboardCallback(GLFWwindow* window, int32_t key, int32_t scancode, int32_t action, int32_t mode);
 		static void mouseCallback(GLFWwindow* window, int32_t button, int32_t action, int32_t mode);

@@ -13,7 +13,7 @@ namespace beta::graphics {
 	public:
 		Texture();
 		Texture(const std::string& filename);
-		Texture(Texture& other) = delete;
+		Texture(Texture& copy) = delete;
 		Texture(Texture&& other) noexcept;
 		~Texture();
 
@@ -23,7 +23,7 @@ namespace beta::graphics {
 
 		void bind();
 
-		Texture& operator=(Texture& other);
+		Texture& operator=(Texture& copy) = delete;
 		Texture& operator=(Texture&& other) noexcept;
 	private:
 		uint32_t m_id;

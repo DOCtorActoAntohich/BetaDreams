@@ -16,6 +16,15 @@
 
 namespace beta::engine {
 	/**
+	 * Represents possible cursor modes.
+	 */
+	enum class CursorMode {
+		NORMAL = GLFW_CURSOR_NORMAL,
+		HIDDEN = GLFW_CURSOR_HIDDEN,
+		DISABLED = GLFW_CURSOR_DISABLED
+	};
+
+	/**
 	 * Describes a graphical output for an app.
 	 */
 	class Window {
@@ -32,25 +41,39 @@ namespace beta::engine {
 		~Window();
 
 		/**
+		 * Gets the maximal width of a window.
+		 *
+		 * \return A maximal possible width of a window.
+		 */
+		int32_t maxWidth() const noexcept;
+
+		/**
+		 * Gets the maximal height of a window.
+		 *
+		 * \return A maximal possible height of a window.
+		 */
+		int32_t maxHeight() const noexcept;
+
+		/**
 		 * Gets the width of a window.
 		 * 
 		 * \return A width of a window.
 		 */
-		int32_t getWidth() const noexcept;
+		int32_t width() const noexcept;
 
 		/**
 		 * Gets the height of a window.
 		 * 
 		 * \return A height of a window.
 		 */
-		int32_t getHeight() const noexcept;
+		int32_t height() const noexcept;
 
 		/**
 		 * Gets the name of a window.
 		 * 
 		 * \return A window caption string.
 		 */
-		std::string getTitle() const noexcept;
+		std::string title() const noexcept;
 
 		/**
 		 * Checks if the window should close after a current tick.
@@ -60,11 +83,25 @@ namespace beta::engine {
 		bool shouldClose() const noexcept;
 
 		/**
+		 * Returns the current aspect ration of the window.
+		 *
+		 * \return The current aspect ration of the window.
+		 */
+		float_t acpectRatio() const noexcept;
+
+		/**
 		 * Sets color to be drawn first on every frame.
 		 *
 		 * \param color A color to fill the window.
 		 */
 		void setFillColor(const utility::Color& color) noexcept;
+
+		/**
+		 * Changes cursor mode.
+		 *
+		 * \param mode A new cursor mode.
+		 */
+		void setCursorMode(CursorMode mode);
 
 		/**
 		 * Fills the window with color set by setFillColor.
@@ -91,6 +128,16 @@ namespace beta::engine {
 
 	private:
 
+		const int32_t MINIMAL_WIDTH;
+		const int32_t MINIMAL_HEIGHT;
+
+		int32_t m_maxWidth;
+		int32_t m_maxHeight;
+
+		int32_t m_width;
+		int32_t m_height;
+
+
 		class GlfwState final {
 		public:
 			GlfwState();
@@ -113,6 +160,14 @@ namespace beta::engine {
 		 */
 		GLFWwindow* getWindow() const noexcept;
 		GLFWwindow* m_window;
+
+		/**
+		 * Changes the size of the window.
+		 *
+		 * \param width A new window width.
+		 * \param height A new window height.
+		 */
+		void resize(int32_t width, int32_t height);
 	};
 
 

@@ -10,7 +10,7 @@ namespace beta::graphics {
 	class VAO {
 	public:
 		VAO();
-		VAO(const VAO& other) = delete;
+		VAO(const VAO& copy) = delete;
 		~VAO() noexcept;
 
 		void bind() noexcept;
