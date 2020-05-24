@@ -14,8 +14,8 @@
 #include "engine/Window.h"
 #include "engine/Events.h"
 
-#include "graphics/ShaderProgram.h"
 #include "graphics/Texture.h"
+#include "graphics/ShaderProgram.h"
 #include "graphics/VAO.h"
 #include "graphics/Camera.h"
 
@@ -29,10 +29,10 @@ App::App()
 void App::run() {
 	engine::Window window;
 	engine::Events events(window);
-	graphics::Camera camera(window, glm::vec3(0, 0, 1), glm::radians(70.f));
+	graphics::Camera camera(window, glm::vec3(0, 0, 1), glm::radians(70.0f));
 
 	graphics::ShaderProgram mainShader("main");
-	graphics::ShaderProgram negativeShader("negative");
+
 	graphics::Texture texture("resource/texture/test.png");
 
 	mainShader.use();
@@ -83,13 +83,6 @@ void App::run() {
 			window.close();
 		}
 
-		if (events.isKeyJustPressed(GLFW_MOUSE_BUTTON_1)) {
-			mainShader.use();
-		}
-		else if (events.isKeyJustPressed(GLFW_MOUSE_BUTTON_2)) {
-			negativeShader.use();
-		}
-
 		if (events.isKeyPressed(GLFW_KEY_W)) {
 			camera.moveForward(dTime * speed);
 		}
@@ -109,6 +102,7 @@ void App::run() {
 			camera.moveUp(-dTime * speed);
 		}
 
+
 		if (events.isCursorFrozen()) {
 			double_t vertical = events.mouseDeltaY() / window.height() * 2;
 			double_t horizontal = events.mouseDeltaX() / window.width() * 2;
@@ -117,10 +111,7 @@ void App::run() {
 		}
 
 		mainShader.uniformMatrix("projView", camera.getProjection() * camera.getView());
-		negativeShader.uniformMatrix("projView", camera.getProjection() * camera.getView());
-
 		mainShader.uniformMatrix("model", model);
-		negativeShader.uniformMatrix("model", model);
 
 		window.clear();
 

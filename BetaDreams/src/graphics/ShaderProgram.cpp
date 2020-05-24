@@ -1,7 +1,7 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#include "graphics/ShaderProgram.h"
+#include "ShaderProgram.h"
 
 #include <fstream>
 #include <iostream>
@@ -13,6 +13,7 @@
 #include <glm/ext.hpp>
 
 #include "Helper.h"
+#include "Log.h"
 
 using namespace beta::graphics;
 
@@ -95,6 +96,7 @@ void ShaderProgram::load(const std::string& name) {
 
 	try {
 		this->load(vertexFilename, fragmentFilename);
+		Log::debug("Loaded shader(s): {0}.", name);
 	}
 	catch (std::istream::failure&) {
 		throw ShaderProgram::LoadException("Unable to read shader file(s) with name: " + name);

@@ -6,34 +6,35 @@
     <ClCompile Include="src\exception\BetaException.cpp" />
     <ClCompile Include="src\engine\Events.cpp" />
     <ClCompile Include="src\engine\Window.cpp" />
-    <ClCompile Include="include\graphics\Texture.h" />
-    <ClCompile Include="src\graphics\Texture.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\utility\Color.cpp" />
     <ClCompile Include="src\graphics\ShaderProgram.cpp" />
     <ClCompile Include="src\graphics\VBO.cpp" />
     <ClCompile Include="src\graphics\VAO.cpp" />
     <ClCompile Include="src\graphics\Camera.cpp" />
+    <ClCompile Include="src\Log.cpp" />
+    <ClCompile Include="src\graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Helper.h" />
-    <ClInclude Include="include\exception\BetaException.h" />
-    <ClInclude Include="include\engine\Events.h" />
-    <ClInclude Include="include\engine\Window.h" />
-    <ClInclude Include="include\App.h" />
-    <ClInclude Include="include\utility\Color.h" />
-    <ClInclude Include="include\graphics\ShaderProgram.h" />
-    <ClInclude Include="include\graphics\VBO.h" />
-    <ClInclude Include="include\graphics\VAO.h" />
-    <ClInclude Include="include\graphics\Camera.h" />
+    <ClInclude Include="src\engine\Events.h" />
+    <ClInclude Include="src\engine\Window.h" />
+    <ClInclude Include="src\exception\BetaException.h" />
+    <ClInclude Include="src\graphics\Camera.h" />
+    <ClInclude Include="src\graphics\ShaderProgram.h" />
+    <ClInclude Include="src\graphics\VAO.h" />
+    <ClInclude Include="src\graphics\VBO.h" />
+    <ClInclude Include="src\utility\Color.h" />
+    <ClInclude Include="src\Log.h" />
+    <ClInclude Include="src\Helper.h" />
+    <ClInclude Include="src\App.h" />
+    <ClInclude Include="src\graphics\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />
     <None Include="PostBuildRelease.bat" />
     <None Include="resource\shader\main\main.glslf" />
     <None Include="resource\shader\main\main.glslv" />
-    <None Include="resource\shader\negative\negative.glslf" />
-    <None Include="resource\shader\negative\negative.glslv" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\texture\test.png" />

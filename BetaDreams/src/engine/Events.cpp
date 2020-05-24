@@ -1,9 +1,11 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#include "engine/Events.h"
+#include "Events.h"
 
 #include <algorithm>
+
+#include "Log.h"
 
 using namespace beta::engine;
 
@@ -28,6 +30,8 @@ Events::Events(Window& window) : m_sourceWindow(window) {
 	glfwSetMouseButtonCallback(sourceWindow, Events::mouseCallback);
 	glfwSetCursorPosCallback(sourceWindow, Events::cursorPositionCallback);
 	glfwSetWindowSizeCallback(sourceWindow, Events::windowResizeCallback);
+
+	Log::debug("Initialized window event handler.");
 }
 
 

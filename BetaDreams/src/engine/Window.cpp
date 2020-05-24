@@ -1,9 +1,10 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#include "engine/Window.h"
+#include "Window.h"
 
 #include "Helper.h"
+#include "Log.h"
 
 using namespace beta::engine;
 
@@ -19,7 +20,9 @@ Window::Window()
 	m_width = 800;
 	m_height = 600;
 
+	
 	m_window = m_glfw.createWindow(m_width, m_height, this->title(), true);
+	Log::debug("Initialized window with size ({0}, {1}).", m_width, m_height);
 
 	// Initialize GLEW.
 	glewExperimental = GL_TRUE;
@@ -30,8 +33,10 @@ Window::Window()
 
 	this->setFillColor(utility::Color::cornflowerBlue());
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	m_maxWidth  = mode->width;
@@ -46,6 +51,7 @@ Window::Window()
 Window::~Window() {
 	if (m_window != nullptr) {
 		glfwDestroyWindow(m_window);
+		Log::debug("Window closed.");
 	}
 }
 
@@ -107,7 +113,7 @@ void Window::setCursorMode(CursorMode mode) {
 
 
 void Window::clear() const noexcept {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 
@@ -148,12 +154,14 @@ Window::GlfwState::GlfwState() {
 	}
 
 	GlfwState::isInitialized = true;
+	Log::debug("Initialized GLFW.");
 }
 
 Window::GlfwState::~GlfwState() {
 	if (GlfwState::isInitialized) {
 		GlfwState::isInitialized = false;
 		glfwTerminate();
+		Log::debug("Terminated GLFW.");
 	}
 }
 

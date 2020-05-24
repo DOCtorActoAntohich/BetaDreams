@@ -1,12 +1,14 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#include "graphics/Texture.h"
+#include "Texture.h"
 
 #include <iostream>
 
 #include <GL/glew.h>
 #include <png.h>
+
+#include "Log.h"
 
 using namespace beta::graphics;
 
@@ -20,11 +22,8 @@ Texture::Texture()
     : m_id(0), m_width(0), m_height(0)
 {}
 
-Texture::Texture(const std::string& file) {
-    m_id = beta::graphics::_png_load(file, m_width, m_height);
-    if (m_id == 0) {
-        throw PngLoadException("Could not load texture: " + file);
-    }
+Texture::Texture(const std::string& filename) : Texture() {
+    this->load(filename);
 }
 
 Texture::Texture(Texture&& other) noexcept {
@@ -33,6 +32,16 @@ Texture::Texture(Texture&& other) noexcept {
 
 Texture::~Texture() {
 	glDeleteTextures(1, &m_id);
+}
+
+
+
+void Texture::load(const std::string& filename) {
+    m_id = beta::graphics::_png_load(filename, m_width, m_height);
+    if (m_id == 0) {
+        throw PngLoadException("Could not load texture: " + filename);
+    }
+    Log::debug("File loaded: {0}.", filename);
 }
 
 

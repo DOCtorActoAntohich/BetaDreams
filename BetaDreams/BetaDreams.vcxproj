@@ -19,39 +19,40 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\graphics\Texture.h" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\exception\BetaException.cpp" />
     <ClCompile Include="src\graphics\Camera.cpp" />
+    <ClCompile Include="src\graphics\Texture.cpp" />
     <ClCompile Include="src\graphics\VAO.cpp" />
     <ClCompile Include="src\graphics\VBO.cpp" />
+    <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\utility\Color.cpp" />
     <ClCompile Include="src\graphics\ShaderProgram.cpp" />
-    <ClCompile Include="src\graphics\Texture.cpp" />
     <ClCompile Include="src\Helper.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\engine\Events.cpp" />
     <ClCompile Include="src\engine\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\App.h" />
-    <ClInclude Include="include\exception\BetaException.h" />
-    <ClInclude Include="include\graphics\Camera.h" />
-    <ClInclude Include="include\graphics\VAO.h" />
-    <ClInclude Include="include\graphics\VBO.h" />
-    <ClInclude Include="include\utility\Color.h" />
-    <ClInclude Include="include\graphics\ShaderProgram.h" />
-    <ClInclude Include="include\Helper.h" />
-    <ClInclude Include="include\engine\Events.h" />
-    <ClInclude Include="include\engine\Window.h" />
+    <ClInclude Include="src\App.h" />
+    <ClInclude Include="src\exception\BetaException.h" />
+    <ClInclude Include="src\graphics\Camera.h" />
+    <ClInclude Include="src\graphics\Texture.h" />
+    <ClInclude Include="src\graphics\VAO.h" />
+    <ClInclude Include="src\graphics\VBO.h" />
+    <ClInclude Include="src\utility\Color.h" />
+    <ClInclude Include="src\graphics\ShaderProgram.h" />
+    <ClInclude Include="src\Helper.h" />
+    <ClInclude Include="src\engine\Events.h" />
+    <ClInclude Include="src\engine\Window.h" />
+    <ClInclude Include="src\Log.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="PostBuildDebug.bat" />
     <None Include="PostBuildRelease.bat" />
     <None Include="resource\shader\main\main.glslf" />
     <None Include="resource\shader\main\main.glslv" />
-    <None Include="resource\shader\negative\negative.glslf" />
-    <None Include="resource\shader\negative\negative.glslv" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\texture\test.png" />
@@ -109,28 +110,28 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)include\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)include\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>

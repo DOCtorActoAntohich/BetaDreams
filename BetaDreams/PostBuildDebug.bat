@@ -20,3 +20,8 @@ xcopy "%1\Libraries\libpng-1.6.28.1\bin\%4\%5\libpng16.dll" "%3" /Y
 echo Copying resource files...
 rmdir /Q /S "%3\resource"
 xcopy "%2\resource" "%3\resource" /Y /E /I
+
+
+
+echo Deleting old logs...
+if exist "logs" rmdir /Q /S "logs"
