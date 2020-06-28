@@ -11,7 +11,7 @@
 using namespace beta::graphics;
 
 Camera::Ptr Camera::create(engine::Window& window, const glm::vec3& position, float_t fov) {
-	return std::unique_ptr<Camera>(new Camera(window, position, fov));
+	return std::unique_ptr<Camera>(new Camera(window, position, fov)); //-V824
 }
 
 Camera::Camera(engine::Window& window, const glm::vec3& position, float_t fov)

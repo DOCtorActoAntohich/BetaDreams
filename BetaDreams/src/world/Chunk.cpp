@@ -52,4 +52,6 @@ Chunk& Chunk::operator=(Chunk&& other) noexcept {
 	}
 
 	this->m_blocks = std::move(other.m_blocks);
+
+	return *this;
 }
