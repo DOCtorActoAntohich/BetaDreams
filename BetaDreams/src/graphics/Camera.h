@@ -1,9 +1,10 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef _BETA_GRAPHICS_CAMERA_H
-#define _BETA_GRAPHICS_CAMERA_H
+#ifndef BETA_GRAPHICS_CAMERA_H_INCLUDED
+#define BETA_GRAPHICS_CAMERA_H_INCLUDED
 
+#include <memory>
 #include <glm/glm.hpp>
 
 #include "engine/Window.h"
@@ -11,8 +12,8 @@
 namespace beta::graphics {
 	class Camera {
 	public:
-		Camera(engine::Window& window, const glm::vec3& position, float_t fov);
-		Camera(const Camera& copy) = delete;
+		using Ptr = std::unique_ptr<Camera>;
+		static Camera::Ptr create(engine::Window& window, const glm::vec3& position, float_t fov);
 		
 		glm::mat4 getProjection();
 		glm::mat4 getView();
@@ -34,6 +35,9 @@ namespace beta::graphics {
 
 		Camera& operator=(const Camera& copy) = delete;
 	private:
+		Camera(engine::Window& window, const glm::vec3& position, float_t fov);
+		Camera(const Camera& copy) = delete;
+
 		engine::Window& m_sourceWindow;
 
 		float_t m_FOV;
@@ -44,8 +48,9 @@ namespace beta::graphics {
 		glm::vec3 m_front;
 		glm::vec3 m_right;
 		glm::vec3 m_up;
+		glm::vec3 m_facing;
 		void updateVectors();
 	};
 }
 
-#endif // !_BETA_GRAPHICS_CAMERA_H
+#endif // !BETA_GRAPHICS_CAMERA_H_INCLUDED

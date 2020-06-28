@@ -96,7 +96,7 @@ void ShaderProgram::load(const std::string& name) {
 
 	try {
 		this->load(vertexFilename, fragmentFilename);
-		Log::debug("Loaded shader(s): {0}.", name);
+		Log::debug("Loaded shader file(s): {0}.", name);
 	}
 	catch (std::istream::failure&) {
 		throw ShaderProgram::LoadException("Unable to read shader file(s) with name: " + name);

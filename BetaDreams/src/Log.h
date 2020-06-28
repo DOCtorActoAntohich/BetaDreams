@@ -1,8 +1,8 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef _BETA_LOG_H
-#define _BETA_LOG_H
+#ifndef BETA_LOG_H_INCLUDED
+#define BETA_LOG_H_INCLUDED
 
 #include <memory>
 
@@ -105,4 +105,4 @@ namespace beta {
 	};
 }
 
-#endif // !_BETA_UTILITY_LOG_H
+#endif // !BETA_UTILITY_LOG_H_INCLUDED

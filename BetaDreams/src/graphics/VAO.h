@@ -1,8 +1,8 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef _BETA_GRAPHICS_VAO_H
-#define _BETA_GRAPHICS_VAO_H
+#ifndef BETA_GRAPHICS_VAO_H_INCLUDED
+#define BETA_GRAPHICS_VAO_H_INCLUDED
 
 #include "graphics/VBO.h"
 
@@ -11,6 +11,7 @@ namespace beta::graphics {
 	public:
 		VAO();
 		VAO(const VAO& copy) = delete;
+		VAO(VAO&& other) noexcept;
 		~VAO() noexcept;
 
 		void bind() noexcept;
@@ -20,6 +21,8 @@ namespace beta::graphics {
 		VAO& attach(VBO&& vbo);
 
 		void draw();
+
+		VAO& operator=(VAO&& other) noexcept;
 	private:
 		uint32_t m_id;
 		std::vector<VBO> m_vbos;
@@ -30,4 +33,4 @@ namespace beta::graphics {
 	};
 }
 
-#endif // !_BETA_GRAPHICS_VAO_H
+#endif // !BETA_GRAPHICS_VAO_H_INCLUDED

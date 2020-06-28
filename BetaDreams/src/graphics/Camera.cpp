@@ -5,8 +5,14 @@
 
 #include <glm/ext.hpp>
 
+#include "utility/Directions.h"
+
 
 using namespace beta::graphics;
+
+Camera::Ptr Camera::create(engine::Window& window, const glm::vec3& position, float_t fov) {
+	return std::unique_ptr<Camera>(new Camera(window, position, fov));
+}
 
 Camera::Camera(engine::Window& window, const glm::vec3& position, float_t fov)
 	: m_sourceWindow(window),
@@ -30,7 +36,7 @@ glm::mat4 Camera::getView() {
 
 
 void Camera::moveForward(double_t value) {
-	m_position += m_front * static_cast<float_t>(value);
+	m_position += m_facing * static_cast<float_t>(value);
 }
 
 void Camera::moveRight(double_t value) {
@@ -38,7 +44,7 @@ void Camera::moveRight(double_t value) {
 }
 
 void Camera::moveUp(double_t value) {
-	m_position += m_up * static_cast<float_t>(value);
+	m_position += utility::direction::UP * static_cast<float_t>(value);
 }
 
 
@@ -54,7 +60,7 @@ void Camera::rotate(double_t up, double_t right, double_t clockwise) noexcept {
 	aroundY += -right;
 	aroundX += -up;
 
-	static const constexpr float_t VERTICAL_BOUNDARY = glm::radians(89.0f);
+	static constexpr float_t VERTICAL_BOUNDARY = glm::radians(89.0f);
 	if (aroundX < -VERTICAL_BOUNDARY) {
 		aroundX = -VERTICAL_BOUNDARY;
 	}
@@ -80,4 +86,6 @@ void Camera::updateVectors() {
 	m_front = glm::vec3(m_rotation * glm::vec4(0, 0, -1, 1));
 	m_right	= glm::vec3(m_rotation * glm::vec4(1, 0, 0, 1));
 	m_up	= glm::vec3(m_rotation * glm::vec4(0, 1, 0, 1));
+
+	m_facing = glm::normalize(glm::vec3(m_front.x, 0, m_front.z ));
 }

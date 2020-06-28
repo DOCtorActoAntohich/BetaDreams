@@ -1,8 +1,8 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef _BETA_ENGINE_WINDOW_H
-#define _BETA_ENGINE_WINDOW_H
+#ifndef BETA_ENGINE_WINDOW_H_INCLUDED
+#define BETA_ENGINE_WINDOW_H_INCLUDED
 
 #include <cstdint>
 #include <string>
@@ -179,4 +179,4 @@ namespace beta::engine {
 	
 }
 
-#endif // !_BETA_ENGINE_WINDOW_H
+#endif // !BETA_ENGINE_WINDOW_H_INCLUDED

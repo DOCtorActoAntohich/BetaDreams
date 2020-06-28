@@ -25,7 +25,7 @@ std::string Helper::getCurrentTime() {
 	// Jan 13 2020 00-13-37 PM
 	const char* format = "%B %d %Y %I-%M-%S %p";
 
-	static const constexpr uint32_t MAX_SIZE = 80;
+	static constexpr uint32_t MAX_SIZE = 80;
 	char buffer[MAX_SIZE];
 	std::strftime(buffer, MAX_SIZE, format, &timeinfo);
 	return std::string(buffer);

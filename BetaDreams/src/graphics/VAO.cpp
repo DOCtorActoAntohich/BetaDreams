@@ -16,6 +16,10 @@ VAO::VAO() {
 	m_objects = 0;
 }
 
+VAO::VAO(VAO&& other) noexcept {
+	*this = std::move(other);
+}
+
 VAO::~VAO() noexcept {
 	glDeleteVertexArrays(1, &m_id);
 }
@@ -85,4 +89,23 @@ void VAO::draw() {
 	this->bind();
 	glDrawArrays(GL_TRIANGLES, 0, m_objects);
 	this->unbind();
+}
+
+
+
+VAO& VAO::operator=(VAO&& other) noexcept {
+	if (this == &other) {
+		return *this;
+	}
+
+	this->m_id = other.m_id;
+	this->m_vbos = std::move(other.m_vbos);
+	this->m_objects = other.m_objects;
+	this->m_isBound = other.m_isBound;
+
+	other.m_id = 0;
+	other.m_isBound = false;
+	other.m_objects = 0;
+
+	return *this;
 }

@@ -1,16 +1,13 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef BETA_APP_H_INCLUDED
-#define BETA_APP_H_INCLUDED
+#ifndef BETA_BLOCK_BLOCKS_H_INCLUDED
+#define BETA_BLOCK_BLOCKS_H_INCLUDED
 
-namespace beta {
-	class App final {
-	public:
-		App();
+#include "Block.h"
 
-		void run();
-	};
-}
+#include "Air.h"
 
-#endif // !BETA_APP_H_INCLUDED
+#include "Stone.h"
+
+#endif // !BETA_BLOCK_BLOCKS_H_INCLUDED

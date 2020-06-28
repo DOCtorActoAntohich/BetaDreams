@@ -220,9 +220,7 @@ int32_t beta::graphics::_png_load(const std::string& filename, uint32_t& width_o
     png_bytep* row_pointers = new png_bytep[static_cast<size_t>(height_out)];
 
     for (uint32_t i = 0; i < height_out; ++i) {
-        // Image is flipped just to make it comfortable
-        // to handle in other parts of project.
-        row_pointers[static_cast<size_t>(height_out - 1 - i)] = image_data + static_cast<size_t>(i) * rowbytes;
+        row_pointers[static_cast<size_t>(i)] = image_data + static_cast<size_t>(i) * rowbytes;
     }
     
     png_read_image(png_ptr, row_pointers);

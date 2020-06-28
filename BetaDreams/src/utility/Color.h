@@ -1,8 +1,8 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef _BETA_UTILITY_COLOR_H
-#define _BETA_UTILITY_COLOR_H
+#ifndef BETA_UTILITY_COLOR_H_INCLUDED
+#define BETA_UTILITY_COLOR_H_INCLUDED
 
 #include <cstdint>
 #include <tuple>
@@ -28,4 +28,4 @@ namespace beta::utility {
 	};
 }
 
-#endif // !_BETA_UTILITY_COLOR_H
+#endif // !BETA_UTILITY_COLOR_H_INCLUDED

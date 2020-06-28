@@ -1,8 +1,8 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef _BETA_GRAPHICS_TEXTURE_H
-#define _BETA_GRAPHICS_TEXTURE_H
+#ifndef BETA_GRAPHICS_TEXTURE_H_INCLUDED
+#define BETA_GRAPHICS_TEXTURE_H_INCLUDED
 
 #include <string>
 
@@ -44,4 +44,4 @@ namespace beta::graphics {
 	extern int32_t _png_load(const std::string& file, uint32_t& width, uint32_t& height);
 }
 
-#endif // !_BETA_GRAPHICS_TEXTURE_H
+#endif // !BETA_GRAPHICS_TEXTURE_H_INCLUDED

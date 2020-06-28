@@ -1,8 +1,8 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef _BETA_GRAPHICS_VBO_H
-#define _BETA_GRAPHICS_VBO_H
+#ifndef BETA_GRAPHICS_VBO_H_INCLUDED
+#define BETA_GRAPHICS_VBO_H_INCLUDED
 
 #include <vector>
 
@@ -37,4 +37,4 @@ namespace beta::graphics {
 	};
 }
 
-#endif // !_BETA_GRAPHICS_VBO_H
+#endif // !BETA_GRAPHICS_VBO_H_INCLUDED

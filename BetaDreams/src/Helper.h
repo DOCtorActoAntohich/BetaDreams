@@ -1,8 +1,8 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef _BETA_HELPER_H
-#define _BETA_HELPER_H
+#ifndef BETA_H_INCLUDEDELPER_H_INCLUDED
+#define BETA_H_INCLUDEDELPER_H_INCLUDED
 
 #include <string>
 #include <filesystem>
@@ -53,4 +53,4 @@ namespace beta {
 	};
 }
 
-#endif // !_BETA_HELPER_H
+#endif // !BETA_H_INCLUDEDELPER_H_INCLUDED
