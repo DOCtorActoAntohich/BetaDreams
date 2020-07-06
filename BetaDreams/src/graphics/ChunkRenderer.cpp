@@ -27,7 +27,7 @@ ChunkRenderer::ChunkRenderer() {
 }
 
 
-#include <iostream>
+
 std::unique_ptr<VAO> ChunkRenderer::makeMesh(const glm::vec3& position, const world::Chunk& chunk) {
 	using world::Chunk;
 	using block::Block;

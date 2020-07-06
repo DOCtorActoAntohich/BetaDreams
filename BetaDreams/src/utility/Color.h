@@ -23,8 +23,6 @@ namespace beta::utility {
 		uint8_t m_green;
 		uint8_t m_blue;
 		uint8_t m_alpha;
-
-		static const Color m_cornflowerBlue;
 	};
 }
 

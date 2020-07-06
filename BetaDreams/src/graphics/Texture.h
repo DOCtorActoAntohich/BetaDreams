@@ -39,9 +39,6 @@ namespace beta::graphics {
 	public:
 		PngLoadException(std::string message);
 	};
-
-	extern double_t getDisplayExponent();
-	extern int32_t _png_load(const std::string& file, uint32_t& width, uint32_t& height);
 }
 
 #endif // !BETA_GRAPHICS_TEXTURE_H_INCLUDED

@@ -7,11 +7,6 @@
 
 using namespace beta::utility;
 
-
-const Color Color::m_cornflowerBlue(99, 149, 238);
-
-
-
 Color::Color()
 	: m_red(0), m_green(0), m_blue(0), m_alpha(0)
 {}
@@ -39,5 +34,6 @@ std::tuple<float_t, float_t, float_t, float_t> Color::glComponents() const noexc
 
 
 const Color& Color::cornflowerBlue() noexcept {
-	return Color::m_cornflowerBlue;
+	static Color cornflowerBlueColor = { 99, 149, 238 };
+	return cornflowerBlueColor;
 }
