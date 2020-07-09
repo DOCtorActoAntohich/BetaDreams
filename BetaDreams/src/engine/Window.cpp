@@ -33,6 +33,7 @@ Window::Window()
 
 	this->setFillColor(utility::Color::cornflowerBlue());
 
+	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
@@ -174,6 +175,7 @@ GLFWwindow* Window::GlfwState::createWindow(uint32_t width, uint32_t height,
 	}
 
 	glfwWindowHint(GLFW_RESIZABLE, isResizable);
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	GLFWwindow* window = glfwCreateWindow(
 		width, height, title.c_str(), nullptr, nullptr
 	);
