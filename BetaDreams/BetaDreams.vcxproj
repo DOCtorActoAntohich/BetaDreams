@@ -22,7 +22,7 @@
     <ClCompile Include="src\block\Air.cpp" />
     <ClCompile Include="src\block\Block.cpp" />
     <ClCompile Include="src\block\Stone.cpp" />
-    <ClCompile Include="src\graphics\ChunkRenderer.cpp" />
+    <ClCompile Include="src\graphics\renderer\ChunkRenderer.cpp" />
     <ClCompile Include="src\utility\types\Hasher.cpp" />
     <ClCompile Include="src\world\Chunk.cpp" />
     <ClCompile Include="src\App.cpp" />
@@ -44,7 +44,7 @@
     <ClInclude Include="src\block\Air.h" />
     <ClInclude Include="src\block\Blocks.h" />
     <ClInclude Include="src\block\Stone.h" />
-    <ClInclude Include="src\graphics\ChunkRenderer.h" />
+    <ClInclude Include="src\graphics\renderer\ChunkRenderer.h" />
     <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\utility\Directions.h" />
     <ClInclude Include="src\utility\Math.h" />

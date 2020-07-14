@@ -9,21 +9,15 @@ Chunk::Chunk() {
 	for (uint32_t y = 0; y < SIZE; ++y) {
 		for (uint32_t z = 0; z < SIZE; ++z) {
 			for (uint32_t x = 0; x < SIZE; ++x) {
-				this->blockPtrAt(x, y, z) = std::make_unique<block::Air>();
+				if (y < 5) {
+					this->blockPtrAt(x, y, z) = std::make_unique<block::Stone>();
+				}
+				else {
+					this->blockPtrAt(x, y, z) = std::make_unique<block::Air>();
+				}
 			}
 		}
 	}
-	this->blockPtrAt(1, 1, 2) = std::make_unique<block::Stone>();
-	this->blockPtrAt(1, 1, 0) = std::make_unique<block::Stone>();
-	this->blockPtrAt(1, 2, 1) = std::make_unique<block::Stone>();
-	this->blockPtrAt(1, 0, 1) = std::make_unique<block::Stone>();
-	this->blockPtrAt(2, 1, 1) = std::make_unique<block::Stone>();
-	this->blockPtrAt(0, 1, 1) = std::make_unique<block::Stone>();
-
-	this->blockPtrAt(5, 5, 5) = std::make_unique<block::Stone>();
-	this->blockPtrAt(5, 6, 5) = std::make_unique<block::Stone>();
-	this->blockPtrAt(5, 6, 6) = std::make_unique<block::Stone>();
-	this->blockPtrAt(5, 7, 6) = std::make_unique<block::Stone>();
 }
 
 Chunk::Chunk(Chunk&& other) noexcept {

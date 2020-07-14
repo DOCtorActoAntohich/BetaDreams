@@ -17,10 +17,10 @@
     <ClCompile Include="src\block\Block.cpp" />
     <ClCompile Include="src\block\Air.cpp" />
     <ClCompile Include="src\block\Stone.cpp" />
-    <ClCompile Include="src\graphics\ChunkRenderer.cpp" />
     <ClCompile Include="src\world\World.cpp" />
     <ClCompile Include="src\utility\types\RgbaColor.cpp" />
     <ClCompile Include="src\utility\types\Hasher.cpp" />
+    <ClCompile Include="src\graphics\renderer\ChunkRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\Events.h" />
@@ -42,11 +42,11 @@
     <ClInclude Include="src\block\Blocks.h" />
     <ClInclude Include="src\block\Air.h" />
     <ClInclude Include="src\block\Stone.h" />
-    <ClInclude Include="src\graphics\ChunkRenderer.h" />
     <ClInclude Include="src\utility\Math.h" />
     <ClInclude Include="src\utility\types\Hasher.h" />
     <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\utility\types\RgbaColor.h" />
+    <ClInclude Include="src\graphics\renderer\ChunkRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />

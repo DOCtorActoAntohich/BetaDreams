@@ -3,7 +3,7 @@
 
 #include "World.h"
 
-#include "graphics/ChunkRenderer.h"
+#include "graphics/renderer/ChunkRenderer.h"
 #include "graphics/VAO.h"
 #include "utility/Math.h"
 
@@ -81,6 +81,6 @@ bool World::isValidPos(const glm::vec3& position) {
 }
 
 void World::renderChunk(const glm::vec3& position) {
-	graphics::ChunkRenderer chunkRenderer;
-	m_chunkMeshes[position] = chunkRenderer.makeMesh(position, this->getChunk(position));
+	using graphics::renderer::ChunkRenderer;
+	m_chunkMeshes[position] = ChunkRenderer::makeMesh(position, this->getChunk(position));
 }

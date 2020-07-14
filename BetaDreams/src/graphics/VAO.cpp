@@ -43,7 +43,7 @@ bool VAO::isBound() const noexcept {
 
 
 VAO& VAO::attach(VBO&& vbo) {
-	static constexpr const size_t MAX_VBOS = 16;
+	static constexpr size_t MAX_VBOS = 16;
 	if (m_vbos.size() == MAX_VBOS) {
 		std::stringstream ss;
 		ss << "Tried to add more than " << MAX_VBOS << " to VAO";

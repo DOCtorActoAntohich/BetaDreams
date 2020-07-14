@@ -18,7 +18,6 @@
 #include "graphics/ShaderProgram.h"
 #include "graphics/VAO.h"
 #include "graphics/Camera.h"
-#include "graphics/ChunkRenderer.h"
 
 #include "world/Chunk.h"
 #include "world/World.h"
@@ -44,6 +43,7 @@ void App::run() {
 	
 	world::World world;
 	world.addEmptyChunk(glm::vec3(0.5, 0.5, 0.5));
+	world.addEmptyChunk(glm::vec3(1.5, 0.5, 0.5));
 
 	float_t speed = 2;
 
