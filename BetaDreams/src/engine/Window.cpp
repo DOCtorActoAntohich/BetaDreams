@@ -14,13 +14,13 @@ Window::InitializationException::InitializationException(std::string message)
 
 
 
-Window::Window() 
-	: MINIMAL_WIDTH(640), MINIMAL_HEIGHT(480) {
+Window::Window() {
+	m_width = DEFAULT_WIDTH;
+	m_height = DEFAULT_HEIGHT;
 
-	m_width = 800;
-	m_height = 600;
+	m_isFullscreen = false;
 
-	
+
 	m_window = m_glfw.createWindow(m_width, m_height, this->title(), true);
 	Log::debug("Initialized window with size ({0}, {1}).", m_width, m_height);
 
@@ -105,7 +105,22 @@ float_t Window::acpectRatio() const noexcept {
 void Window::resize(int32_t width, int32_t height) {
 	m_width = width;
 	m_height = height;
+	glfwSetWindowSize(m_window, width, height);
 	glViewport(0, 0, m_width, m_height);
+}
+
+void Window::setPosition(int32_t x, int32_t y) {
+	glfwSetWindowPos(m_window, x, y);
+}
+
+void Window::centerOnScreen() {
+	int32_t xCenter = m_maxWidth / 2;
+	int32_t yCenter = m_maxHeight / 2;
+
+	int32_t xWindowHalfSize = DEFAULT_WIDTH / 2;
+	int32_t yWindowHalfSize = DEFAULT_HEIGHT / 2;
+
+	this->setPosition(xCenter - xWindowHalfSize, yCenter - yWindowHalfSize);
 }
 
 
@@ -119,6 +134,28 @@ void Window::setFillColor(const Color& color) noexcept {
 
 void Window::setCursorMode(CursorMode mode) {
 	glfwSetInputMode(m_window, GLFW_CURSOR, static_cast<int32_t>(mode));
+}
+
+
+
+bool Window::isFullscreen() const noexcept {
+	return m_isFullscreen;
+}
+
+void Window::toggleFullscreen() noexcept {
+	this->isFullscreen() ? makeWindowed() : makeFullscreen();
+}
+
+void Window::makeFullscreen() noexcept {
+	this->setPosition(0, 0);
+	this->resize(m_maxWidth, m_maxHeight);
+	m_isFullscreen = true;
+}
+
+void Window::makeWindowed() noexcept {
+	this->centerOnScreen();
+	this->resize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	m_isFullscreen = false;
 }
 
 
@@ -185,7 +222,10 @@ GLFWwindow* Window::GlfwState::createWindow(uint32_t width, uint32_t height,
 	}
 
 	glfwWindowHint(GLFW_RESIZABLE, isResizable);
-	glfwWindowHint(GLFW_SAMPLES, 4);
+
+	static constexpr uint32_t MXAA_SAMPLES = 4;
+	glfwWindowHint(GLFW_SAMPLES, MXAA_SAMPLES);
+
 	GLFWwindow* window = glfwCreateWindow(
 		width, height, title.c_str(), nullptr, nullptr
 	);

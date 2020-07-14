@@ -54,6 +54,7 @@
     <None Include="resource\shader\main\main.glslf" />
     <None Include="resource\shader\main\main.glslv" />
     <None Include="cpp.hint" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\texture\grass.png" />

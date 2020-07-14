@@ -67,6 +67,7 @@
     <ClInclude Include="src\world\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="cpp.hint" />
     <None Include="PostBuildDebug.bat" />
     <None Include="PostBuildRelease.bat" />

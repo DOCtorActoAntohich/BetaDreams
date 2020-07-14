@@ -34,6 +34,7 @@ namespace beta::engine {
 		 * OpenGL is also initialized here.
 		 */
 		Window();
+
 		/**
 		 * Finalizes the window.
 		 * OpenGL is also terminated here.
@@ -104,6 +105,28 @@ namespace beta::engine {
 		void setCursorMode(CursorMode mode);
 
 		/**
+		 * Checks if the window is fullscreen.
+		 *
+		 * \return true if the window is fullscreen, false otherwise
+		 */
+		bool isFullscreen() const noexcept;
+
+		/**
+		 * Switches between windowed and fullscreen mode.
+		 */
+		void toggleFullscreen() noexcept;
+
+		/**
+		 * Makes the app run at fullscreen mode.
+		 */
+		void makeFullscreen() noexcept;
+
+		/**
+		 * Makes the app run at windowed mode. The window will be centered.
+		 */
+		void makeWindowed() noexcept;
+
+		/**
 		 * Fills the window with color set by setFillColor.
 		 */
 		void clear() const noexcept;
@@ -128,14 +151,19 @@ namespace beta::engine {
 
 	private:
 
-		const int32_t MINIMAL_WIDTH;
-		const int32_t MINIMAL_HEIGHT;
+		static constexpr int32_t MINIMAL_WIDTH  = 640;
+		static constexpr int32_t MINIMAL_HEIGHT = 480;
+
+		static constexpr int32_t DEFAULT_WIDTH = 800;
+		static constexpr int32_t DEFAULT_HEIGHT = 600;
 
 		int32_t m_maxWidth;
 		int32_t m_maxHeight;
 
 		int32_t m_width;
 		int32_t m_height;
+
+		bool m_isFullscreen;
 
 
 		class GlfwState final {
@@ -168,6 +196,19 @@ namespace beta::engine {
 		 * \param height A new window height.
 		 */
 		void resize(int32_t width, int32_t height);
+
+		/**
+		 * Sets new position for upper-left corner of a window.
+		 *
+		 * \param x Horizontal position from the left.
+		 * \param y Vertical position from the up.
+		 */
+		void setPosition(int32_t x, int32_t y);
+
+		/**
+		 * Centers the window on the desktop.
+		 */
+		void centerOnScreen();
 	};
 
 

@@ -86,6 +86,10 @@ void App::run() {
 			camera->moveUp(-dTime * speed);
 		}
 
+		if (events.isKeyJustPressed(GLFW_KEY_F11)) {
+			window.toggleFullscreen();
+		}
+
 
 		if (events.isCursorFrozen()) {
 			double_t vertical = events.mouseDeltaY() / window.height() * 2;
