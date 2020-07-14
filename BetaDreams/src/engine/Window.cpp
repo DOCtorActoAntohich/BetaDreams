@@ -14,25 +14,27 @@ Window::InitializationException::InitializationException(std::string message)
 
 
 
-Window::Window() {
+Window::Window() : m_glfw() {
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	m_maxWidth = mode->width;
+	m_maxHeight = mode->height;
+
 	m_width = DEFAULT_WIDTH;
 	m_height = DEFAULT_HEIGHT;
 
 	m_isFullscreen = false;
 
-
 	m_window = m_glfw.createWindow(m_width, m_height, this->title(), true);
+	glfwSetWindowSizeLimits(m_window, MINIMAL_WIDTH, MINIMAL_HEIGHT, m_maxWidth, m_maxHeight);
+	this->centerOnScreen();
+	this->setFillColor(Color::cornflowerBlue());
 	Log::debug("Initialized window with size ({0}, {1}).", m_width, m_height);
 
-	// Initialize GLEW.
 	glewExperimental = GL_TRUE;
 	auto result = glewInit();
 	if (result != GLEW_OK) {
 		throw InitializationException(Helper::getGlewError(result));
 	}
-
-	this->setFillColor(Color::cornflowerBlue());
-
 
 	glEnable(GL_POINT_SMOOTH);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
@@ -48,12 +50,6 @@ Window::Window() {
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	m_maxWidth  = mode->width;
-	m_maxHeight = mode->height;
-
-	glfwSetWindowSizeLimits(m_window, MINIMAL_WIDTH, MINIMAL_HEIGHT, m_maxWidth, m_maxHeight);
 }
 
 
