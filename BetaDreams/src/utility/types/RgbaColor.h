@@ -1,22 +1,22 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef BETA_UTILITY_COLOR_H_INCLUDED
-#define BETA_UTILITY_COLOR_H_INCLUDED
+#ifndef BETA_UTILITY_TYPES_COLOR_H_INCLUDED
+#define BETA_UTILITY_TYPES_COLOR_H_INCLUDED
 
 #include <cstdint>
 #include <tuple>
 
-namespace beta::utility {
-	class Color final {
+namespace beta::utility::types {
+	class RgbaColor final {
 	public:
-		Color();
-		Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
+		RgbaColor();
+		RgbaColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
 
 		std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> components() const noexcept;
 		std::tuple<float_t, float_t, float_t, float_t> glComponents() const noexcept;
 		
-		static const Color& cornflowerBlue() noexcept;
+		static const RgbaColor& cornflowerBlue() noexcept;
 
 	private:
 		uint8_t m_red;
@@ -26,4 +26,4 @@ namespace beta::utility {
 	};
 }
 
-#endif // !BETA_UTILITY_COLOR_H_INCLUDED
+#endif // !BETA_UTILITY_TYPES_COLOR_H_INCLUDED

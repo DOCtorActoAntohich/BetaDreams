@@ -31,7 +31,17 @@ Window::Window()
 		throw InitializationException(Helper::getGlewError(result));
 	}
 
-	this->setFillColor(utility::Color::cornflowerBlue());
+	this->setFillColor(Color::cornflowerBlue());
+
+
+	glEnable(GL_POINT_SMOOTH);
+	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+
+	glEnable(GL_LINE_SMOOTH);
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
+	glEnable(GL_POLYGON_SMOOTH);
+	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
 	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_DEPTH_TEST);
@@ -100,7 +110,7 @@ void Window::resize(int32_t width, int32_t height) {
 
 
 
-void Window::setFillColor(const utility::Color& color) noexcept {
+void Window::setFillColor(const Color& color) noexcept {
 	auto [r, g, b, a] = color.glComponents();
 	glClearColor(r, g, b, a);
 }

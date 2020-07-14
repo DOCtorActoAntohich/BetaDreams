@@ -7,7 +7,6 @@
     <ClCompile Include="src\engine\Events.cpp" />
     <ClCompile Include="src\engine\Window.cpp" />
     <ClCompile Include="src\App.cpp" />
-    <ClCompile Include="src\utility\Color.cpp" />
     <ClCompile Include="src\graphics\ShaderProgram.cpp" />
     <ClCompile Include="src\graphics\VBO.cpp" />
     <ClCompile Include="src\graphics\VAO.cpp" />
@@ -20,6 +19,8 @@
     <ClCompile Include="src\block\Stone.cpp" />
     <ClCompile Include="src\graphics\ChunkRenderer.cpp" />
     <ClCompile Include="src\world\World.cpp" />
+    <ClCompile Include="src\utility\types\RgbaColor.cpp" />
+    <ClCompile Include="src\utility\types\Hasher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\Events.h" />
@@ -29,7 +30,6 @@
     <ClInclude Include="src\graphics\ShaderProgram.h" />
     <ClInclude Include="src\graphics\VAO.h" />
     <ClInclude Include="src\graphics\VBO.h" />
-    <ClInclude Include="src\utility\Color.h" />
     <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\Helper.h" />
     <ClInclude Include="src\App.h" />
@@ -44,6 +44,9 @@
     <ClInclude Include="src\block\Stone.h" />
     <ClInclude Include="src\graphics\ChunkRenderer.h" />
     <ClInclude Include="src\utility\Math.h" />
+    <ClInclude Include="src\utility\types\Hasher.h" />
+    <ClInclude Include="src\Types.h" />
+    <ClInclude Include="src\utility\types\RgbaColor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />

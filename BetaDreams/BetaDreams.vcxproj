@@ -23,6 +23,7 @@
     <ClCompile Include="src\block\Block.cpp" />
     <ClCompile Include="src\block\Stone.cpp" />
     <ClCompile Include="src\graphics\ChunkRenderer.cpp" />
+    <ClCompile Include="src\utility\types\Hasher.cpp" />
     <ClCompile Include="src\world\Chunk.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\exception\BetaException.cpp" />
@@ -31,7 +32,7 @@
     <ClCompile Include="src\graphics\VAO.cpp" />
     <ClCompile Include="src\graphics\VBO.cpp" />
     <ClCompile Include="src\Log.cpp" />
-    <ClCompile Include="src\utility\Color.cpp" />
+    <ClCompile Include="src\utility\types\RgbaColor.cpp" />
     <ClCompile Include="src\graphics\ShaderProgram.cpp" />
     <ClCompile Include="src\Helper.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -44,10 +45,12 @@
     <ClInclude Include="src\block\Blocks.h" />
     <ClInclude Include="src\block\Stone.h" />
     <ClInclude Include="src\graphics\ChunkRenderer.h" />
+    <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\utility\Directions.h" />
     <ClInclude Include="src\utility\Math.h" />
     <ClInclude Include="src\utility\Types.h" />
     <ClInclude Include="src\block\Block.h" />
+    <ClInclude Include="src\utility\types\Hasher.h" />
     <ClInclude Include="src\world\Chunk.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\exception\BetaException.h" />
@@ -55,7 +58,7 @@
     <ClInclude Include="src\graphics\Texture.h" />
     <ClInclude Include="src\graphics\VAO.h" />
     <ClInclude Include="src\graphics\VBO.h" />
-    <ClInclude Include="src\utility\Color.h" />
+    <ClInclude Include="src\utility\types\RgbaColor.h" />
     <ClInclude Include="src\graphics\ShaderProgram.h" />
     <ClInclude Include="src\Helper.h" />
     <ClInclude Include="src\engine\Events.h" />

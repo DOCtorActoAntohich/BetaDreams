@@ -9,7 +9,7 @@
 
 #include "graphics/VAO.h"
 #include "world/Chunk.h"
-#include "utility/Types.h"
+#include "Types.h"
 
 namespace beta::world {
 	class World {

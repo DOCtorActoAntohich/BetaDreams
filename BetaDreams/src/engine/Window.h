@@ -11,7 +11,7 @@
 #include <GLFW/glfw3.h>
 
 #include "exception/BetaException.h"
-#include "utility/Color.h"
+#include "Types.h"
 
 
 namespace beta::engine {
@@ -94,7 +94,7 @@ namespace beta::engine {
 		 *
 		 * \param color A color to fill the window.
 		 */
-		void setFillColor(const utility::Color& color) noexcept;
+		void setFillColor(const Color& color) noexcept;
 
 		/**
 		 * Changes cursor mode.
