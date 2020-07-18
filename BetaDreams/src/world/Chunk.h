@@ -4,7 +4,6 @@
 #ifndef BETA_WORLD_CHUNK_H_INCLUDED
 #define BETA_WORLD_CHUNK_H_INCLUDED
 
-#include <array>
 #include <memory>
 
 #include "block/Blocks.h"
