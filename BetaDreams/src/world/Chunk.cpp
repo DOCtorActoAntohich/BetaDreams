@@ -29,15 +29,15 @@ Chunk::Chunk(Chunk&& other) noexcept {
 
 
 Block& Chunk::blockAt(uint32_t x, uint32_t y, uint32_t z) {
-	return *m_blocks[(y * SIZE + z) * SIZE + x];
+	return *m_blocks.at(x, y, z);
 }
 
 const Block& Chunk::blockAt(uint32_t x, uint32_t y, uint32_t z) const {
-	return *m_blocks[(y * SIZE + z) * SIZE + x];
+	return *m_blocks.at(x, y, z);
 }
 
 std::unique_ptr<Block>& Chunk::blockPtrAt(uint32_t x, uint32_t y, uint32_t z) {
-	return m_blocks[(y * SIZE + z) * SIZE + x];
+	return m_blocks.at(x, y, z);
 }
 
 

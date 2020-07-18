@@ -51,6 +51,7 @@
     <ClInclude Include="src\utility\Types.h" />
     <ClInclude Include="src\block\Block.h" />
     <ClInclude Include="src\utility\types\Hasher.h" />
+    <ClInclude Include="src\utility\types\ThreeDimensionalArray.h" />
     <ClInclude Include="src\world\Chunk.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\exception\BetaException.h" />

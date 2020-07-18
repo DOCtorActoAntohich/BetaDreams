@@ -47,6 +47,7 @@
     <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\utility\types\RgbaColor.h" />
     <ClInclude Include="src\graphics\renderer\ChunkRenderer.h" />
+    <ClInclude Include="src\utility\types\ThreeDimensionalArray.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />
