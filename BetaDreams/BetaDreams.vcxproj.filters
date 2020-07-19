@@ -21,6 +21,8 @@
     <ClCompile Include="src\utility\types\RgbaColor.cpp" />
     <ClCompile Include="src\utility\types\Hasher.cpp" />
     <ClCompile Include="src\graphics\renderer\ChunkRenderer.cpp" />
+    <ClCompile Include="src\graphics\renderer\SimpleBlockRenderer.cpp" />
+    <ClCompile Include="src\utility\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\Events.h" />
@@ -48,6 +50,7 @@
     <ClInclude Include="src\utility\types\RgbaColor.h" />
     <ClInclude Include="src\graphics\renderer\ChunkRenderer.h" />
     <ClInclude Include="src\utility\types\ThreeDimensionalArray.h" />
+    <ClInclude Include="src\graphics\renderer\SimpleBlockRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />

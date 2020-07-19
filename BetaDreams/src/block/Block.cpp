@@ -40,3 +40,7 @@ Block::Block() {
 	*/
 }
 
+
+bool Block::doesBlockSide(uint32_t sides) const noexcept {
+	return (this->getBlockedSides() & sides) != BlockedSide::NONE;
+}

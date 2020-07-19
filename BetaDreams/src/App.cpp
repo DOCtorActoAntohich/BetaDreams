@@ -44,6 +44,7 @@ void App::run() {
 	world::World world;
 	world.addEmptyChunk(glm::vec3(0.5, 0.5, 0.5));
 	world.addEmptyChunk(glm::vec3(1.5, 0.5, 0.5));
+	world.renderAll();
 
 	float_t speed = 2;
 

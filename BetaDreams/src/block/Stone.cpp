@@ -10,11 +10,17 @@ Stone::Stone()
 
 
 
-const std::string& Stone::ingameId() const {
+const std::string& Stone::ingameId() const noexcept {
 	static const std::string id = "beta_stone";
 	return id;
 }
 
-bool Stone::isTransparent() const {
+bool Stone::isTransparent() const noexcept {
 	return false;
+}
+
+uint32_t Stone::getBlockedSides() const noexcept {
+	return	BlockedSide::UP		| BlockedSide::DOWN |
+			BlockedSide::WEST	| BlockedSide::EAST |
+			BlockedSide::NORTH	| BlockedSide::SOUTH;
 }

@@ -22,6 +22,7 @@ namespace beta::world {
 		Block& blockAt(const glm::vec3& position);
 		const Block& blockAt(const glm::vec3& position) const;
 
+		void renderAll();
 		void draw() const;
 
 		static glm::vec3 chunkToBlockPosition(const glm::vec3& chunkCenter);

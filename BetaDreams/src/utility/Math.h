@@ -12,6 +12,8 @@ namespace beta::utility::math {
 		// https://stackoverflow.com/questions/1903954/is-there-a-standard-sign-function-signum-sgn-in-c-c
 		return (T(0) < number) - (number < T(0));
 	}
+
+	int32_t mod(int32_t number, int32_t m);
 }
 
 #endif // !BETA_UTILITY_MATH_H_INCLUDED

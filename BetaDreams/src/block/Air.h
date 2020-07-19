@@ -11,8 +11,9 @@ namespace beta::block {
 	public:
 		Air();
 
-		const std::string& ingameId() const override;
-		bool isTransparent() const override;
+		const std::string& ingameId() const noexcept override;
+		bool isTransparent() const noexcept override;
+		uint32_t getBlockedSides() const noexcept override;
 	private:
 	};
 }

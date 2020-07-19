@@ -9,6 +9,19 @@
 #include "graphics/Texture.h"
 
 namespace beta::block {
+	namespace BlockedSide {
+		enum : uint32_t {
+			NONE	= 0,
+			NORTH	= 1 << 0,
+			SOUTH	= 1 << 1,
+			WEST	= 1 << 2,
+			EAST	= 1 << 3,
+			UP		= 1 << 4,
+			DOWN	= 1 << 5,
+		};
+	}
+
+
 	class Block {
 	public:
 		Block();
@@ -16,8 +29,11 @@ namespace beta::block {
 		static constexpr float_t SIZE = 1.0f;
 		static constexpr float_t HALF_SIZE = SIZE / 2.0f;
 
-		virtual const std::string& ingameId() const = 0;
-		virtual bool isTransparent() const = 0;
+		virtual const std::string& ingameId() const noexcept = 0;
+		virtual bool isTransparent() const noexcept = 0;
+
+		virtual uint32_t getBlockedSides() const noexcept = 0;
+		bool doesBlockSide(uint32_t sides) const noexcept;
 	private:
 	};
 }

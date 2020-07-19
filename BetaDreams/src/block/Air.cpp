@@ -10,11 +10,15 @@ Air::Air()
 
 
 
-const std::string& Air::ingameId() const {
+const std::string& Air::ingameId() const noexcept {
 	static const std::string id = "beta_air";
 	return id;
 }
 
-bool Air::isTransparent() const {
+bool Air::isTransparent() const noexcept {
 	return true;
+}
+
+uint32_t Air::getBlockedSides() const noexcept {
+	return BlockedSide::NONE;
 }

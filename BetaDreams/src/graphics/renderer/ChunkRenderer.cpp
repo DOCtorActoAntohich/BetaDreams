@@ -6,123 +6,93 @@
 #include <vector>
 #include <glm/vec2.hpp>
 
-#include "world/World.h"
-#include "utility/Math.h"
+#include "graphics/renderer/SimpleBlockRenderer.h"
 #include "utility/Directions.h"
+#include "utility/Math.h"
+#include "world/World.h"
 
 using namespace beta::graphics;
 
-std::unique_ptr<VAO> renderer::ChunkRenderer::makeMesh(const glm::vec3& position, const world::Chunk& chunk) {
+std::unique_ptr<VAO> renderer::ChunkRenderer::makeMesh(const glm::vec3& position, const ChunkNeighborhood& chunks) {
 	using world::Chunk;
 	using block::Block;
 
-	static constexpr uint32_t MAX_CUBE_SIDES = world::Chunk::MAX_BLOCKS * 6;
+	static constexpr uint32_t PRIMITIVE_CUBE_SIDES = world::Chunk::MAX_BLOCKS * 6;
 	static constexpr uint32_t VERTICES_PER_SIDE = 6;
 
 	static constexpr uint32_t VERTEX_SIZE = 3;
-	static constexpr uint32_t MAX_VERTICES = MAX_CUBE_SIDES * VERTEX_SIZE * VERTICES_PER_SIDE;
+	static constexpr uint32_t CUBE_VERTICES = PRIMITIVE_CUBE_SIDES * VERTEX_SIZE * VERTICES_PER_SIDE;
 
 	static constexpr uint32_t TEXTURE_COORDINATE_SIZE = 2;
-	static constexpr uint32_t MAX_TEXTURE_COORDINATES = MAX_CUBE_SIDES * TEXTURE_COORDINATE_SIZE * VERTICES_PER_SIDE;
+	static constexpr uint32_t CUBE_TEXTURE_COORDINATES = PRIMITIVE_CUBE_SIDES * TEXTURE_COORDINATE_SIZE * VERTICES_PER_SIDE;
 
 	std::vector<float_t> vertexBuffer;
 	std::vector<float_t> textureCoordinatesBuffer;
 
-	vertexBuffer.reserve(MAX_VERTICES);
-	textureCoordinatesBuffer.reserve(MAX_TEXTURE_COORDINATES);
+	vertexBuffer.reserve(CUBE_VERTICES);
+	textureCoordinatesBuffer.reserve(CUBE_TEXTURE_COORDINATES);
 
-	auto isBlocked = [&chunk](uint32_t x, uint32_t y, uint32_t z) -> bool {
-		auto isInside = [](uint32_t x, uint32_t y, uint32_t z) -> bool {
-			return (x < Chunk::SIZE) && (y < Chunk::SIZE) && (z < Chunk::SIZE);
+
+	static auto getBlockNeighborhood = [&](int32_t x, int32_t y, int32_t z) {
+		static auto getChunkPos = [](int32_t blockpos) {
+			static constexpr int32_t CENTER = 1;
+			if (blockpos < 0) {
+				return CENTER - 1;
+			}
+			if (blockpos >= Chunk::SIZE) {
+				return CENTER + 1;
+			}
+			return CENTER;
 		};
 
-		return isInside(x, y, z) && !chunk.blockAt(x, y, z).isTransparent();
+		SimpleBlockRenderer::BlockNeighborhood neighborhood;
+		for (int32_t yi = -1; yi <= 1; ++yi) {
+			for (int32_t zi = -1; zi <= 1; ++zi) {
+				for (int32_t xi = -1; xi <= 1; ++xi) {
+					int32_t xres = x + xi, yres = y + yi, zres = z + zi;
+
+					int32_t xchunk = getChunkPos(xres),
+							ychunk = getChunkPos(yres),
+							zchunk = getChunkPos(zres);
+
+					neighborhood.at(xi + 1, yi + 1, zi + 1) = nullptr;  
+
+					if (chunks.at(xchunk, ychunk, zchunk) == nullptr) {
+						continue;
+					}
+
+					const Chunk& chunk = *chunks.at(xchunk, ychunk, zchunk);
+
+					xres = utility::math::mod(xres, Chunk::SIZE);
+					yres = utility::math::mod(yres, Chunk::SIZE);
+					zres = utility::math::mod(zres, Chunk::SIZE);
+
+					neighborhood.at(xi + 1, yi + 1, zi + 1) = &chunk.blockAt(xres, yres, zres);
+				}
+			}
+		}
+		return neighborhood;
 	};
 
 
 	glm::vec3 blocksOffset = world::World::chunkToBlockPosition(position);
 
-	auto addToMesh = [&](glm::vec3 vertex, glm::vec2 textureCoordinates) -> void {
-		vertexBuffer.push_back(vertex.x);
-		vertexBuffer.push_back(vertex.y);
-		vertexBuffer.push_back(vertex.z);
 
-		textureCoordinatesBuffer.push_back(textureCoordinates.x);
-		textureCoordinatesBuffer.push_back(textureCoordinates.y);
-	};
-
-
-	for (uint32_t y = 0; y < world::Chunk::SIZE; ++y) {
-		for (uint32_t z = 0; z < world::Chunk::SIZE; ++z) {
-			for (uint32_t x = 0; x < world::Chunk::SIZE; ++x) {
-				const Block& block = chunk.blockAt(x, y, z);
-
-				if (block.isTransparent()) {
-					continue;
-				}
-
+	for (int32_t y = 0; y < world::Chunk::SIZE; ++y) {
+		for (int32_t z = 0; z < world::Chunk::SIZE; ++z) {
+			for (int32_t x = 0; x < world::Chunk::SIZE; ++x) {
 				glm::vec blockCenter = blocksOffset + glm::vec3(x, y, z);
+				auto neighborhood = getBlockNeighborhood(x, y, z);
 
-				using namespace beta::utility::direction;
-				if (!isBlocked(x, y - 1, z)) {
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_EAST_DOWN, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_EAST_DOWN, { 0, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_WEST_DOWN, { 1, 1 });
-
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_EAST_DOWN, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_WEST_DOWN, { 1, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_WEST_DOWN, { 1, 0 });
-				}
-				if (!isBlocked(x, y + 1, z)) {
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_WEST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_WEST_UP, { 0, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_EAST_UP, { 1, 1 });
-
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_WEST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_EAST_UP, { 1, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_EAST_UP, { 1, 0 });
-				}
-
-				if (!isBlocked(x, y, z - 1)) {
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_EAST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_EAST_DOWN, { 0, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_WEST_DOWN, { 1, 1 });
-
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_EAST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_WEST_DOWN, { 1, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_WEST_UP, { 1, 0 });
-				}
-				if (!isBlocked(x, y, z + 1)) {
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_WEST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_WEST_DOWN, { 0, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_EAST_DOWN, { 1, 1 });
-
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_WEST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_EAST_DOWN, { 1, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_EAST_UP, { 1, 0 });
-				}
-
-				if (!isBlocked(x - 1, y, z)) {
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_WEST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_WEST_DOWN, { 0, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_WEST_DOWN, { 1, 1 });
-
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_WEST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_WEST_DOWN, { 1, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_WEST_UP, { 1, 0 });
-				}
-				if (!isBlocked(x + 1, y, z)) {
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_EAST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_EAST_DOWN, { 0, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_EAST_DOWN, { 1, 1 });
-
-					addToMesh(blockCenter + Block::HALF_SIZE * SOUTH_EAST_UP, { 0, 0 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_EAST_DOWN, { 1, 1 });
-					addToMesh(blockCenter + Block::HALF_SIZE * NORTH_EAST_UP, { 1, 0 });
-				}
+				auto [vertices, texCoords] = SimpleBlockRenderer::getRenderData(blockCenter, neighborhood);
+				std::move(vertices.begin(), vertices.end(), std::back_inserter(vertexBuffer));
+				std::move(texCoords.begin(), texCoords.end(), std::back_inserter(textureCoordinatesBuffer));
 			}
 		}
 	}
+
+	vertexBuffer.shrink_to_fit();
+	textureCoordinatesBuffer.shrink_to_fit();
 
 	auto mesh = std::make_unique<VAO>();
 	mesh->attach({ vertexBuffer, 3 })
