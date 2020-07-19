@@ -14,7 +14,7 @@ SimpleBlockRenderer::BlockRenderData SimpleBlockRenderer::getRenderData(const gl
 	
 	static constexpr glm::vec3 center = { 1, 1, 1 };
 
-	auto getCentralBlock = [&]() {
+	static auto getCentralBlock = [&]() {
 		return blocks.at(static_cast<uint32_t>(center.x),
 						 static_cast<uint32_t>(center.y),
 						 static_cast<uint32_t>(center.z));

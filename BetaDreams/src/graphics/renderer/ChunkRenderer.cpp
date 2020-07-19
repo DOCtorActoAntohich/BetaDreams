@@ -75,12 +75,24 @@ std::unique_ptr<VAO> renderer::ChunkRenderer::makeMesh(const glm::vec3& position
 	};
 
 
-	glm::vec3 blocksOffset = world::World::chunkToBlockPosition(position);
+	static constexpr glm::vec3 center = { 1, 1, 1 };
 
+	static auto getCentralChunk = [&]() -> const Chunk& {
+		return *chunks.at(static_cast<uint32_t>(center.x),
+						 static_cast<uint32_t>(center.y),
+						 static_cast<uint32_t>(center.z));
+	};
+
+	glm::vec3 blocksOffset = world::World::chunkToBlockPosition(position);
+	const Chunk& chunk = getCentralChunk();
 
 	for (int32_t y = 0; y < world::Chunk::SIZE; ++y) {
 		for (int32_t z = 0; z < world::Chunk::SIZE; ++z) {
 			for (int32_t x = 0; x < world::Chunk::SIZE; ++x) {
+				if (dynamic_cast<const block::Air*>(&chunk.blockAt(x, y, z))) {
+					continue;
+				}
+
 				glm::vec blockCenter = blocksOffset + glm::vec3(x, y, z);
 				auto neighborhood = getBlockNeighborhood(x, y, z);
 
