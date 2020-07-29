@@ -11,7 +11,9 @@ Chunk::Chunk() {
 	for (uint32_t y = 0; y < SIZE; ++y) {
 		for (uint32_t z = 0; z < SIZE; ++z) {
 			for (uint32_t x = 0; x < SIZE; ++x) {
-				if (y < 8 * (std::sin(x) + std::cos(z) + 1)) {
+				float_t pi = 3.14159265f;
+				float_t xp = x / static_cast<float_t>(SIZE) * pi;
+				if (y < 2 + 4 * sin(xp)) {
 					this->blockPtrAt(x, y, z) = std::make_unique<block::Stone>();
 				}
 				else {

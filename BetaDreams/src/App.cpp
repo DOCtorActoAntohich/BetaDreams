@@ -68,6 +68,13 @@ void App::run() {
 			window.close();
 		}
 
+		if (events.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+			speed = 8;
+		}
+		else {
+			speed = 2;
+		}
+
 		if (events.isKeyPressed(GLFW_KEY_W)) {
 			camera->moveForward(dTime * speed);
 		}

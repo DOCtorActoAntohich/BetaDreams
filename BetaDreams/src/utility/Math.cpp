@@ -6,3 +6,7 @@
 int32_t beta::utility::math::mod(int32_t number, int32_t m) {
 	return ((number % m) + m) % m;
 }
+
+bool beta::utility::math::isPowerOf2(int32_t number) {
+	return (number != 0) && ((number & (number - 1)) == 0);
+}

@@ -23,6 +23,8 @@
     <ClCompile Include="src\graphics\renderer\ChunkRenderer.cpp" />
     <ClCompile Include="src\graphics\renderer\SimpleBlockRenderer.cpp" />
     <ClCompile Include="src\utility\Math.cpp" />
+    <ClCompile Include="src\graphics\TextureAtlas.cpp" />
+    <ClCompile Include="src\utility\types\Rectangle2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\Events.h" />
@@ -51,6 +53,10 @@
     <ClInclude Include="src\graphics\renderer\ChunkRenderer.h" />
     <ClInclude Include="src\utility\types\ThreeDimensionalArray.h" />
     <ClInclude Include="src\graphics\renderer\SimpleBlockRenderer.h" />
+    <ClInclude Include="src\graphics\TextureAtlas.h" />
+    <ClInclude Include="src\utility\types\Rectangle2D.h" />
+    <ClInclude Include="src\utility\types\TwoDimensionalArray.h" />
+    <ClInclude Include="src\utility\types\TwoDimensionalDynamicArray.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />

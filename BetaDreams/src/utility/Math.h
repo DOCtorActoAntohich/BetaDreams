@@ -14,6 +14,8 @@ namespace beta::utility::math {
 	}
 
 	int32_t mod(int32_t number, int32_t m);
+
+	bool isPowerOf2(int32_t number);
 }
 
 #endif // !BETA_UTILITY_MATH_H_INCLUDED

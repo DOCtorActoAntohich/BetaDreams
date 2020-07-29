@@ -24,8 +24,10 @@
     <ClCompile Include="src\block\Stone.cpp" />
     <ClCompile Include="src\graphics\renderer\ChunkRenderer.cpp" />
     <ClCompile Include="src\graphics\renderer\SimpleBlockRenderer.cpp" />
+    <ClCompile Include="src\graphics\TextureAtlas.cpp" />
     <ClCompile Include="src\utility\Math.cpp" />
     <ClCompile Include="src\utility\types\Hasher.cpp" />
+    <ClCompile Include="src\utility\types\Rectangle2D.cpp" />
     <ClCompile Include="src\world\Chunk.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\exception\BetaException.cpp" />
@@ -48,13 +50,17 @@
     <ClInclude Include="src\block\Stone.h" />
     <ClInclude Include="src\graphics\renderer\ChunkRenderer.h" />
     <ClInclude Include="src\graphics\renderer\SimpleBlockRenderer.h" />
+    <ClInclude Include="src\graphics\TextureAtlas.h" />
     <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\utility\Directions.h" />
     <ClInclude Include="src\utility\Math.h" />
     <ClInclude Include="src\utility\Types.h" />
     <ClInclude Include="src\block\Block.h" />
     <ClInclude Include="src\utility\types\Hasher.h" />
+    <ClInclude Include="src\utility\types\Rectangle2D.h" />
     <ClInclude Include="src\utility\types\ThreeDimensionalArray.h" />
+    <ClInclude Include="src\utility\types\TwoDimensionalArray.h" />
+    <ClInclude Include="src\utility\types\TwoDimensionalDynamicArray.h" />
     <ClInclude Include="src\world\Chunk.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\exception\BetaException.h" />
@@ -134,29 +140,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\png++-0.2.9\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\$(Platform)\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\png++-0.2.9\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\$(Platform)\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\png++-0.2.9\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\$(Platform)\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\png++-0.2.9\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\$(Platform)\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\png++-0.2.9\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\$(Platform)\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\png++-0.2.9\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\$(Platform)\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\png++-0.2.9\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)src\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(SolutionDir)Libraries\glfw-3.3.2\$(Platform)\include\;$(SolutionDir)Libraries\glm-0.9.9.8\include\;$(SolutionDir)Libraries\zlib-1.2.8.8\include\;$(SolutionDir)Libraries\libpng-1.6.28.1\include\;$(SolutionDir)Libraries\png++-0.2.9\include\;$(SolutionDir)Libraries\spdlog-1.6.0\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\glfw-3.3.2\$(Platform)\lib-vc2019\;$(SolutionDir)Libraries\zlib-1.2.8.8\lib\$(Configuration)\$(Platform)\;$(SolutionDir)Libraries\libpng-1.6.28.1\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\Build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Build\Intermediates\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
@@ -174,7 +180,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;zlibd.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;zlibd.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>false</OptimizeReferences>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
     </Link>
@@ -195,7 +201,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;zlibd.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;zlibd.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>false</OptimizeReferences>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
     </Link>
@@ -220,7 +226,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;zlib.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;zlib.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>call PostBuildRelease.bat $(SolutionDir) $(ProjectDir) $(OutDir) $(Configuration) $(Platform)</Command>
@@ -243,7 +249,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;zlib.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;glfw3dll.lib;zlib.lib;libpng16.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>call PostBuildRelease.bat $(SolutionDir) $(ProjectDir) $(OutDir) $(Configuration) $(Platform)</Command>

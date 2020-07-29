@@ -10,7 +10,7 @@ rem // 5 = $(Platform)
 
 echo Copying DLLs from libraries...
 xcopy "%1\Libraries\glew-2.1.0\bin\%4\%5\glew32.dll" "%3" /Y
-xcopy "%1\Libraries\glfw-3.3.2\lib-vc2019\glfw3.dll" "%3" /Y
+xcopy "%1\Libraries\glfw-3.3.2\%5\lib-vc2019\glfw3.dll" "%3" /Y
 
 xcopy "%1\Libraries\zlib-1.2.8.8\bin\%4\%5\zlib.dll" "%3" /Y
 xcopy "%1\Libraries\libpng-1.6.28.1\bin\%4\%5\libpng16.dll" "%3" /Y

@@ -1,23 +1,22 @@
 // This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-#ifndef BETA_UTILITY_TYPES_THREE_DIMENSIONAL_ARRAY_H_INCLUDED
-#define BETA_UTILITY_TYPES_THREE_DIMENSIONAL_ARRAY_H_INCLUDED
+#ifndef BETA_UTILITY_TYPES_TWO_DIMENSIONAL_ARRAY_H_INCLUDED
+#define BETA_UTILITY_TYPES_TWO_DIMENSIONAL_ARRAY_H_INCLUDED
 
 #include <array>
-#include <stdexcept>
+//#include <stdexcept>
 #include <sstream>
 
 namespace beta::utility::types {
 	/**
-	 * Simple 3-dimensional array. Iteration order is YZX.
+	 * Simple 2-dimensional array. Iteration order is YX.
 	 * \tparam Ty A type to store.
 	 * \tparam X_SIZE X size of the container.
 	 * \tparam Y_SIZE Y size of the container.
-	 * \tparam Z_SIZE Z size of the container.
 	 */
-	template<class Ty, uint32_t X_SIZE, uint32_t Y_SIZE, uint32_t Z_SIZE>
-	class ThreeDimensionalArray {
+	template<class Ty, uint32_t X_SIZE, uint32_t Y_SIZE>
+	class TwoDimensionalArray {
 	public:
 		using value_type = Ty;
 		using const_value_type = const value_type;
@@ -25,23 +24,23 @@ namespace beta::utility::types {
 		using const_reference_type = const value_type&;
 		using value_type_ptr = value_type*;
 
-
-		ThreeDimensionalArray() : m_container()
+		TwoDimensionalArray() : m_container()
 		{	}
 
 
 
-		reference_type at(uint32_t x, uint32_t y, uint32_t z) {
-			validateIndexes(x, y, z);
-			auto index = (y * Z_SIZE + z) * X_SIZE + x;
+		reference_type at(uint32_t x, uint32_t y) {
+			validateIndexes(x, y);
+			auto index = y * X_SIZE + x;
 			return m_container[index];
 		}
 
-		const_reference_type at(const uint32_t x, const uint32_t y, const uint32_t z) const {
-			validateIndexes(x, y, z);
-			auto index = (y * Z_SIZE + z) * X_SIZE + x;
+		const_reference_type at(const uint32_t x, const uint32_t y) const {
+			validateIndexes(x, y);
+			auto index = y * X_SIZE + x;
 			return m_container[index];
 		}
+
 
 		constexpr value_type_ptr data() const noexcept {
 			return m_container.data();
@@ -57,10 +56,6 @@ namespace beta::utility::types {
 			return Y_SIZE;
 		}
 
-		constexpr uint32_t zSize() const noexcept {
-			return Z_SIZE;
-		}
-
 		constexpr uint32_t maxElements() const noexcept {
 			return CONTAINER_SIZE;
 		}
@@ -69,7 +64,7 @@ namespace beta::utility::types {
 
 	private:
 
-		void validateIndexes(const uint32_t& x, const uint32_t& y, const uint32_t& z) const {
+		void validateIndexes(const uint32_t& x, const uint32_t& y) const {
 			static auto check = [](const uint32_t& index, const uint32_t& MAX) {
 				if (index >= MAX) {
 					std::stringstream ss;
@@ -79,12 +74,11 @@ namespace beta::utility::types {
 			};
 			check(x, X_SIZE);
 			check(y, Y_SIZE);
-			check(z, Z_SIZE);
 		}
 
-		static constexpr uint32_t CONTAINER_SIZE = X_SIZE * Y_SIZE * Z_SIZE;
+		static constexpr uint32_t CONTAINER_SIZE = X_SIZE * Y_SIZE;
 		std::array<value_type, CONTAINER_SIZE> m_container;
 	};
 }
 
-#endif // !BETA_UTILITY_TYPES_THREE_DIMENSIONAL_ARRAY_H_INCLUDED
+#endif // !BETA_UTILITY_TYPES_TWO_DIMENSIONAL_ARRAY_H_INCLUDED
