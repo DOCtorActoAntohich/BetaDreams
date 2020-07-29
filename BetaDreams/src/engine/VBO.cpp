@@ -8,7 +8,7 @@
 
 #include <GL/glew.h>
 
-using namespace beta::graphics;
+using namespace beta::engine;
 
 
 VBO::VBO() {

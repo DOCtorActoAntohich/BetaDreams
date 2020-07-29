@@ -6,7 +6,7 @@
 
 #include <vector>
 
-namespace beta::graphics {
+namespace beta::engine {
 	class VBO {
 	public:
 		VBO();

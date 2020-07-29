@@ -4,7 +4,7 @@
 #include "World.h"
 
 #include "graphics/renderer/ChunkRenderer.h"
-#include "graphics/VAO.h"
+#include "engine/VAO.h"
 #include "utility/Math.h"
 
 using namespace beta::world;

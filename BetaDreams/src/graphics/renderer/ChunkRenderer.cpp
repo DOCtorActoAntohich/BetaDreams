@@ -11,9 +11,9 @@
 #include "utility/Math.h"
 #include "world/World.h"
 
-using namespace beta::graphics;
+using namespace beta;
 
-std::unique_ptr<VAO> renderer::ChunkRenderer::makeMesh(const glm::vec3& position, const ChunkNeighborhood& chunks) {
+std::unique_ptr<engine::VAO> graphics::renderer::ChunkRenderer::makeMesh(const glm::vec3& position, const ChunkNeighborhood& chunks) {
 	using world::Chunk;
 	using block::Block;
 
@@ -106,7 +106,7 @@ std::unique_ptr<VAO> renderer::ChunkRenderer::makeMesh(const glm::vec3& position
 	vertexBuffer.shrink_to_fit();
 	textureCoordinatesBuffer.shrink_to_fit();
 
-	auto mesh = std::make_unique<VAO>();
+	auto mesh = std::make_unique<engine::VAO>();
 	mesh->attach({ vertexBuffer, 3 })
 		 .attach({ textureCoordinatesBuffer, 2 });
 

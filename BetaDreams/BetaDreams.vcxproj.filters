@@ -8,9 +8,6 @@
     <ClCompile Include="src\engine\Window.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\graphics\ShaderProgram.cpp" />
-    <ClCompile Include="src\graphics\VBO.cpp" />
-    <ClCompile Include="src\graphics\VAO.cpp" />
-    <ClCompile Include="src\graphics\Camera.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\graphics\Texture.cpp" />
     <ClCompile Include="src\world\Chunk.cpp" />
@@ -25,15 +22,15 @@
     <ClCompile Include="src\utility\Math.cpp" />
     <ClCompile Include="src\graphics\TextureAtlas.cpp" />
     <ClCompile Include="src\utility\types\Rectangle2D.cpp" />
+    <ClCompile Include="src\engine\VBO.cpp" />
+    <ClCompile Include="src\engine\VAO.cpp" />
+    <ClCompile Include="src\engine\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\Events.h" />
     <ClInclude Include="src\engine\Window.h" />
     <ClInclude Include="src\exception\BetaException.h" />
-    <ClInclude Include="src\graphics\Camera.h" />
     <ClInclude Include="src\graphics\ShaderProgram.h" />
-    <ClInclude Include="src\graphics\VAO.h" />
-    <ClInclude Include="src\graphics\VBO.h" />
     <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\Helper.h" />
     <ClInclude Include="src\App.h" />
@@ -57,6 +54,9 @@
     <ClInclude Include="src\utility\types\Rectangle2D.h" />
     <ClInclude Include="src\utility\types\TwoDimensionalArray.h" />
     <ClInclude Include="src\utility\types\TwoDimensionalDynamicArray.h" />
+    <ClInclude Include="src\engine\VBO.h" />
+    <ClInclude Include="src\engine\VAO.h" />
+    <ClInclude Include="src\engine\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />

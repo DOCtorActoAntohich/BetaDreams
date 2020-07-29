@@ -3,7 +3,7 @@
 
 #include "Block.h"
 
-#include "graphics/VAO.h"
+#include "engine/VAO.h"
 #include "utility/Directions.h"
 
 using namespace beta::block;

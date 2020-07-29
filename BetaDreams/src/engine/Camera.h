@@ -9,7 +9,7 @@
 
 #include "engine/Window.h"
 
-namespace beta::graphics {
+namespace beta::engine {
 	class Camera {
 	public:
 		using Ptr = std::unique_ptr<Camera>;

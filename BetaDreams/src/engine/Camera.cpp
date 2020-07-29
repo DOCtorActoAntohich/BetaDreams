@@ -8,7 +8,7 @@
 #include "utility/Directions.h"
 
 
-using namespace beta::graphics;
+using namespace beta::engine;
 
 Camera::Ptr Camera::create(engine::Window& window, const glm::vec3& position, float_t fov) {
 	return std::unique_ptr<Camera>(new Camera(window, position, fov)); //-V824

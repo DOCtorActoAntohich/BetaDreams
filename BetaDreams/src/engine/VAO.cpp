@@ -8,7 +8,7 @@
 
 #include <GL/glew.h>
 
-using namespace beta::graphics;
+using namespace beta::engine;
 
 VAO::VAO() {
 	glGenVertexArrays(1, &m_id);

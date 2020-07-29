@@ -4,9 +4,9 @@
 #ifndef BETA_GRAPHICS_VAO_H_INCLUDED
 #define BETA_GRAPHICS_VAO_H_INCLUDED
 
-#include "graphics/VBO.h"
+#include "engine/VBO.h"
 
-namespace beta::graphics {
+namespace beta::engine {
 	class VAO {
 	public:
 		VAO();

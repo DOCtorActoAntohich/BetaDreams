@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <glm/vec3.hpp>
 
-#include "graphics/VAO.h"
+#include "engine/VAO.h"
 #include "world/Chunk.h"
 #include "Types.h"
 
@@ -33,7 +33,7 @@ namespace beta::world {
 		void renderChunk(const glm::vec3& position);
 
 		std::unordered_map<glm::vec3, Chunk, HashVec3f> m_chunks;
-		std::unordered_map<glm::vec3, std::unique_ptr<graphics::VAO>, HashVec3f> m_chunkMeshes;
+		std::unordered_map<glm::vec3, std::unique_ptr<engine::VAO>, HashVec3f> m_chunkMeshes;
 	};
 }
 

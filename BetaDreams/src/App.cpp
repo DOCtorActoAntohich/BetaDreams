@@ -13,11 +13,11 @@
 
 #include "engine/Window.h"
 #include "engine/Events.h"
+#include "engine/VAO.h"
+#include "engine/Camera.h"
 
 #include "graphics/Texture.h"
 #include "graphics/ShaderProgram.h"
-#include "graphics/VAO.h"
-#include "graphics/Camera.h"
 
 #include "world/Chunk.h"
 #include "world/World.h"
@@ -31,7 +31,7 @@ App::App()
 void App::run() {
 	engine::Window window;
 	engine::Events events(window);
-	auto camera = graphics::Camera::create(window, glm::vec3(8, 8, 8), glm::radians(70.0f));
+	auto camera = engine::Camera::create(window, glm::vec3(8, 8, 8), glm::radians(70.0f));
 
 	graphics::ShaderProgram mainShader("main");
 
