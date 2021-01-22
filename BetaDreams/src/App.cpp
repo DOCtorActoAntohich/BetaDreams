@@ -12,7 +12,7 @@
 #include <glm/ext.hpp>
 
 #include "engine/Window.h"
-#include "engine/Events.h"
+#include "engine/InputHandler.h"
 #include "engine/VAO.h"
 #include "engine/Camera.h"
 
@@ -29,9 +29,12 @@ App::App()
 
 
 void App::run() {
-	engine::Window window;
-	engine::Events events(window);
-	auto camera = engine::Camera::create(window, glm::vec3(8, 8, 8), glm::radians(70.0f));
+	using engine::Window;
+	using engine::InputHandler;
+
+	Window::setFillColor(Color::cornflowerBlue());
+	InputHandler::pollEvents();
+	auto camera = std::make_unique<engine::Camera>(glm::vec3(8, 8, 8), glm::radians(70.0f));
 
 	graphics::ShaderProgram mainShader("main");
 
@@ -53,55 +56,55 @@ void App::run() {
 
 	uint32_t fps = 0;
 
-	while (!window.shouldClose()) {
+	while (!Window::shouldClose()) {
 		double_t currentTime = glfwGetTime();
 		dTime = currentTime - lastTime;
 		lastTime = currentTime;
 
 		fps = static_cast<uint32_t>(1 / dTime);
 
-		if (events.isKeyJustPressed(GLFW_KEY_TAB)) {
-			events.toggleCursor();
+		if (InputHandler::isKeyJustPressed(GLFW_KEY_TAB)) {
+			InputHandler::toggleCursor();
 		}
 
-		if (events.isKeyJustPressed(GLFW_KEY_ESCAPE)) {
-			window.close();
+		if (InputHandler::isKeyJustPressed(GLFW_KEY_ESCAPE)) {
+			Window::close();
 		}
 
-		if (events.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+		if (InputHandler::isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
 			speed = 8;
 		}
 		else {
 			speed = 2;
 		}
 
-		if (events.isKeyPressed(GLFW_KEY_W)) {
+		if (InputHandler::isKeyPressed(GLFW_KEY_W)) {
 			camera->moveForward(dTime * speed);
 		}
-		else if (events.isKeyPressed(GLFW_KEY_S)) {
+		else if (InputHandler::isKeyPressed(GLFW_KEY_S)) {
 			camera->moveForward(-dTime * speed);
 		}
-		if (events.isKeyPressed(GLFW_KEY_A)) {
+		if (InputHandler::isKeyPressed(GLFW_KEY_A)) {
 			camera->moveRight(-dTime * speed);
 		}
-		else if (events.isKeyPressed(GLFW_KEY_D)) {
+		else if (InputHandler::isKeyPressed(GLFW_KEY_D)) {
 			camera->moveRight(dTime * speed);
 		}
-		if (events.isKeyPressed(GLFW_KEY_SPACE)) {
+		if (InputHandler::isKeyPressed(GLFW_KEY_SPACE)) {
 			camera->moveUp(dTime * speed);
 		}
-		else if (events.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+		else if (InputHandler::isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
 			camera->moveUp(-dTime * speed);
 		}
 
-		if (events.isKeyJustPressed(GLFW_KEY_F11)) {
-			window.toggleFullscreen();
+		if (InputHandler::isKeyJustPressed(GLFW_KEY_F11)) {
+			Window::toggleFullscreen();
 		}
 
 
-		if (events.isCursorFrozen()) {
-			double_t vertical = events.mouseDeltaY() / window.height() * 2;
-			double_t horizontal = events.mouseDeltaX() / window.width() * 2;
+		if (InputHandler::isCursorFrozen()) {
+			double_t vertical = InputHandler::mouseDeltaY() / Window::height() * 2;
+			double_t horizontal = InputHandler::mouseDeltaX() / Window::width() * 2;
 
 			camera->rotate(vertical, horizontal, 0);
 		}
@@ -109,12 +112,12 @@ void App::run() {
 		mainShader.uniformMatrix("projView", camera->getProjection() * camera->getView());
 		mainShader.uniformMatrix("model", model);
 
-		window.clear();
+		Window::clear();
 
 		world.draw();
 
-		window.swapBuffers();
+		Window::swapBuffers();
 
-		events.pollEvents();
+		InputHandler::pollEvents();
 	}
 }

@@ -4,6 +4,7 @@
 #include "TextureAtlas.h"
 
 #include <deque>
+#include <algorithm>
 
 using namespace beta::graphics;
 

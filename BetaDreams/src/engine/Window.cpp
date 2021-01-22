@@ -9,32 +9,52 @@
 using namespace beta::engine;
 
 
-Window::InitializationException::InitializationException(std::string message)
-	: BetaException(message) {}
+#pragma region C Wrapper
+
+inline void my_glfw_initialize() {
+	if (glfwInit() == GLFW_FALSE) {
+		throw std::runtime_error(beta::Helper::getGlfwError());
+	}
+	beta::Log::debug("Initialized GLFW.");
+}
 
 
+inline void my_glfw_terminate() {
+	glfwTerminate();
+	beta::Log::debug("Terminated GLFW.");
+}
 
-Window::Window() : m_glfw() {
-	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	m_maxWidth = mode->width;
-	m_maxHeight = mode->height;
 
-	m_width = DEFAULT_WIDTH;
-	m_height = DEFAULT_HEIGHT;
-
-	m_isFullscreen = false;
-
-	m_window = m_glfw.createWindow(m_width, m_height, this->title(), true);
-	glfwSetWindowSizeLimits(m_window, MINIMAL_WIDTH, MINIMAL_HEIGHT, m_maxWidth, m_maxHeight);
-	this->centerOnScreen();
-	this->setFillColor(Color::cornflowerBlue());
-	Log::debug("Initialized window with size ({0}, {1}).", m_width, m_height);
-
+inline void my_glew_initialize() {
 	glewExperimental = GL_TRUE;
 	auto result = glewInit();
 	if (result != GLEW_OK) {
-		throw InitializationException(Helper::getGlewError(result));
+		throw std::runtime_error(beta::Helper::getGlewError(result));
 	}
+}
+
+
+inline std::pair<int32_t, int32_t> get_screen_resolution() {
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	return { mode->width, mode->height };
+}
+
+
+inline GLFWwindow* create_window(const int32_t width, const int32_t height, const std::string& title) {
+	glfwWindowHint(GLFW_RESIZABLE, true);
+
+	static constexpr uint32_t MXAA_SAMPLES = 4;
+	glfwWindowHint(GLFW_SAMPLES, MXAA_SAMPLES);
+
+	GLFWwindow* window = glfwCreateWindow(
+		width, height, title.c_str(), nullptr, nullptr
+	);
+	if (window == nullptr) {
+		throw std::runtime_error(beta::Helper::getGlfwError());
+	}
+
+	glViewport(0, 0, width, height);
+	glfwMakeContextCurrent(window);
 
 	glEnable(GL_POINT_SMOOTH);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
@@ -50,50 +70,118 @@ Window::Window() : m_glfw() {
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	return window;
 }
 
+#pragma /* C Wrapper. */ endregion
 
 
+
+Window::Window()
+	: m_width(DEFAULT_WIDTH), m_height(DEFAULT_HEIGHT)
+	, m_title("Beta Dreams"), m_isFullscreen(false)
+	, m_window(nullptr)
+{
+	my_glfw_initialize();
+
+	std::tie(m_maxWidth, m_maxHeight) = get_screen_resolution();
+
+	m_window = create_window(m_width, m_height, m_title);
+	glfwSetWindowSizeLimits(m_window, MINIMAL_WIDTH, MINIMAL_HEIGHT, m_maxWidth, m_maxHeight);
+	this->centerOnScreen();
+	Log::debug("Initialized window with size ({0}, {1}).", m_width, m_height);
+
+	my_glew_initialize();
+}
 
 Window::~Window() {
-	if (m_window != nullptr) {
-		glfwDestroyWindow(m_window);
-		Log::debug("Window closed.");
-	}
+	glfwDestroyWindow(m_window);
+	my_glfw_terminate();
+}
+
+
+Window& Window::instance() {
+	static Window instance;
+	return instance;
 }
 
 
 
-int32_t Window::maxWidth() const noexcept {
-	return m_maxWidth;
+int32_t Window::maxWidth() {
+	return instance().m_maxWidth;
 }
 
-int32_t Window::maxHeight() const noexcept {
-	return m_maxHeight;
-}
-
-int32_t Window::width() const noexcept {
-	return m_width;
-}
-
-int32_t Window::height() const noexcept {
-	return m_height;
-}
-
-std::string Window::title() const noexcept {
-	return "Beta Dreams";
+int32_t Window::maxHeight() {
+	return instance().m_maxHeight;
 }
 
 
+int32_t Window::width() {
+	return instance().m_width;
+}
 
-bool Window::shouldClose() const noexcept {
-	return glfwWindowShouldClose(m_window);
+int32_t Window::height() {
+	return instance().m_height;
+}
+
+const std::string& Window::title() {
+	return instance().m_title;
+}
+
+bool Window::shouldClose() {
+	return glfwWindowShouldClose(instance().m_window);
+}
+
+float_t Window::aspectRatio() {
+	return static_cast<float_t>(instance().m_width) / instance().m_height;
 }
 
 
 
-float_t Window::acpectRatio() const noexcept {
-	return static_cast<float_t>(m_width) / m_height;
+void Window::setCursorMode(CursorMode mode) {
+	glfwSetInputMode(instance().m_window, GLFW_CURSOR, static_cast<int32_t>(mode));
+}
+
+
+
+bool Window::isFullscreen() {
+	return instance().m_isFullscreen;
+}
+
+void Window::toggleFullscreen() {
+	Window::isFullscreen() ? Window::makeWindowed() : Window::makeFullscreen();
+}
+
+void Window::makeFullscreen() {
+	instance().m_makeFullscreen_impl();
+}
+
+void Window::makeWindowed() {
+	instance().m_makeWindowed_impl();
+}
+
+
+
+void Window::setFillColor(const Color& color) {
+	instance();
+	auto [r, g, b, a] = color.glComponents();
+	glClearColor(r, g, b, a);
+}
+
+void Window::clear() {
+	instance();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Window::swapBuffers() {
+	glfwSwapBuffers(instance().m_window);
+}
+
+
+
+void Window::close() {
+	glfwSetWindowShouldClose(instance().m_window, GLFW_TRUE);
 }
 
 
@@ -121,118 +209,19 @@ void Window::centerOnScreen() {
 
 
 
-void Window::setFillColor(const Color& color) noexcept {
-	auto [r, g, b, a] = color.glComponents();
-	glClearColor(r, g, b, a);
-}
-
-
-
-void Window::setCursorMode(CursorMode mode) {
-	glfwSetInputMode(m_window, GLFW_CURSOR, static_cast<int32_t>(mode));
-}
-
-
-
-bool Window::isFullscreen() const noexcept {
-	return m_isFullscreen;
-}
-
-void Window::toggleFullscreen() noexcept {
-	this->isFullscreen() ? makeWindowed() : makeFullscreen();
-}
-
-void Window::makeFullscreen() noexcept {
+void Window::m_makeFullscreen_impl() {
 	this->setPosition(0, 0);
 	this->resize(m_maxWidth, m_maxHeight);
 	m_isFullscreen = true;
 }
 
-void Window::makeWindowed() noexcept {
+void Window::m_makeWindowed_impl() {
 	this->centerOnScreen();
 	this->resize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	m_isFullscreen = false;
 }
 
 
-
-void Window::clear() const noexcept {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-
-
-void Window::swapBuffers() {
-	glfwSwapBuffers(m_window);
-}
-
-
-
-void Window::close() {
-	glfwSetWindowShouldClose(m_window, GLFW_TRUE);
-}
-
-
-
-
-
-GLFWwindow* Window::getWindow() const noexcept {
-	return m_window;
-}
-
-
-
-
-
-bool Window::GlfwState::isInitialized = false;
-bool Window::GlfwState::isWindowCreated = false;
-
-Window::GlfwState::GlfwState() {
-	if (GlfwState::isInitialized) {
-		throw InitializationException("GLFW is already initialized");
-	}
-
-	int32_t initialized = glfwInit();
-	if (initialized == GLFW_FALSE) {
-		throw InitializationException(Helper::getGlfwError());
-	}
-
-	GlfwState::isInitialized = true;
-	Log::debug("Initialized GLFW.");
-}
-
-Window::GlfwState::~GlfwState() {
-	if (GlfwState::isInitialized) {
-		GlfwState::isInitialized = false;
-		glfwTerminate();
-		Log::debug("Terminated GLFW.");
-	}
-}
-
-
-GLFWwindow* Window::GlfwState::createWindow(uint32_t width, uint32_t height,
-											const std::string& title,
-											bool isResizable) {
-	if (GlfwState::isWindowCreated) {
-		throw InitializationException("Window is already created");
-	}
-
-	glfwWindowHint(GLFW_RESIZABLE, isResizable);
-
-	static constexpr uint32_t MXAA_SAMPLES = 4;
-	glfwWindowHint(GLFW_SAMPLES, MXAA_SAMPLES);
-
-	GLFWwindow* window = glfwCreateWindow(
-		width, height, title.c_str(), nullptr, nullptr
-	);
-	if (window == nullptr) {
-		throw InitializationException(Helper::getGlfwError());
-	}
-
-	GlfwState::isWindowCreated = true;
-
-	glViewport(0, 0, width, height);
-	glfwMakeContextCurrent(window);
-
-	return window;
+GLFWwindow* Window::getWindowPtr() {
+	return instance().m_window;
 }

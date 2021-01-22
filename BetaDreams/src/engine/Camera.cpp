@@ -10,20 +10,16 @@
 
 using namespace beta::engine;
 
-Camera::Ptr Camera::create(engine::Window& window, const glm::vec3& position, float_t fov) {
-	return std::unique_ptr<Camera>(new Camera(window, position, fov)); //-V824
-}
 
-Camera::Camera(engine::Window& window, const glm::vec3& position, float_t fov)
-	: m_sourceWindow(window),
-	  m_position(position), m_FOV(fov), m_rotation(1.0f) {
+Camera::Camera(const glm::vec3& position, float_t fov)
+	: m_position(position), m_FOV(fov), m_rotation(1.0f)
+{
 	this->updateVectors();
 }
 
 
-
 glm::mat4 Camera::getProjection() {
-	float_t aspect = m_sourceWindow.acpectRatio();
+	float_t aspect = Window::aspectRatio();
 	return glm::perspective(m_FOV, aspect, 0.1f, 100.0f);
 }
 
@@ -56,11 +52,11 @@ void Camera::rotate(double_t up, double_t right, double_t clockwise) noexcept {
 	static double_t aroundY = 0;
 	static double_t aroundX = 0;
 	
-	aroundZ += -clockwise;
-	aroundY += -right;
-	aroundX += -up;
+	aroundZ -= clockwise;
+	aroundY -= right;
+	aroundX -= up;
 
-	static constexpr float_t VERTICAL_BOUNDARY = glm::radians(89.0f);
+	static constexpr float_t VERTICAL_BOUNDARY = glm::radians(90.0f);
 	if (aroundX < -VERTICAL_BOUNDARY) {
 		aroundX = -VERTICAL_BOUNDARY;
 	}

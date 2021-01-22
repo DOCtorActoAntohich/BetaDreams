@@ -4,7 +4,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Helper.cpp" />
     <ClCompile Include="src\exception\BetaException.cpp" />
-    <ClCompile Include="src\engine\Events.cpp" />
     <ClCompile Include="src\engine\Window.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\graphics\ShaderProgram.cpp" />
@@ -25,9 +24,9 @@
     <ClCompile Include="src\engine\VBO.cpp" />
     <ClCompile Include="src\engine\VAO.cpp" />
     <ClCompile Include="src\engine\Camera.cpp" />
+    <ClCompile Include="src\engine\InputHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\Events.h" />
     <ClInclude Include="src\engine\Window.h" />
     <ClInclude Include="src\exception\BetaException.h" />
     <ClInclude Include="src\graphics\ShaderProgram.h" />
@@ -57,6 +56,7 @@
     <ClInclude Include="src\engine\VBO.h" />
     <ClInclude Include="src\engine\VAO.h" />
     <ClInclude Include="src\engine\Camera.h" />
+    <ClInclude Include="src\engine\InputHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostBuildDebug.bat" />
@@ -64,7 +64,6 @@
     <None Include="resource\shader\main\main.glslf" />
     <None Include="resource\shader\main\main.glslv" />
     <None Include="cpp.hint" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\texture\grass.png" />

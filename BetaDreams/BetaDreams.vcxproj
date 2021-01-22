@@ -40,7 +40,7 @@
     <ClCompile Include="src\graphics\ShaderProgram.cpp" />
     <ClCompile Include="src\Helper.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\engine\Events.cpp" />
+    <ClCompile Include="src\engine\InputHandler.cpp" />
     <ClCompile Include="src\engine\Window.cpp" />
     <ClCompile Include="src\world\World.cpp" />
   </ItemGroup>
@@ -71,13 +71,12 @@
     <ClInclude Include="src\utility\types\RgbaColor.h" />
     <ClInclude Include="src\graphics\ShaderProgram.h" />
     <ClInclude Include="src\Helper.h" />
-    <ClInclude Include="src\engine\Events.h" />
+    <ClInclude Include="src\engine\InputHandler.h" />
     <ClInclude Include="src\engine\Window.h" />
     <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\world\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="cpp.hint" />
     <None Include="PostBuildDebug.bat" />
     <None Include="PostBuildRelease.bat" />

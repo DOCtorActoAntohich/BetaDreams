@@ -12,9 +12,9 @@
 namespace beta::engine {
 	class Camera {
 	public:
-		using Ptr = std::unique_ptr<Camera>;
-		static Camera::Ptr create(engine::Window& window, const glm::vec3& position, float_t fov);
-		
+		Camera(const glm::vec3& position, float_t fov);
+		Camera(const Camera& copy) = delete;
+
 		glm::mat4 getProjection();
 		glm::mat4 getView();
 
@@ -22,24 +22,20 @@ namespace beta::engine {
 		void moveRight(double_t value);
 		void moveUp(double_t value);
 
-		/**
-		 * Rotates camera by given angles (in radians).
-		 * Positive values rotate camera in stated direction,
-		 * while negative ones rotate it in opposite direction.
-		 * 
-		 * \param up Changes how camera looks up and down.
-		 * \param right Changes how camera looks right and left.
-		 * \param clockwise Rotates camera clockwise and counter-clockwise.
-		 */
+
+		/// <summary>
+		/// Rotates camera by given angles (in radians).
+		/// Positive values rotate camera in stated direction,
+		/// while negative ones rotate it in opposite direction.
+		/// </summary>
+		/// <param name="up">Look up/down.</param>
+		/// <param name="right">Look left/right.</param>
+		/// <param name="clockwise">Rotate clockwise/counter-clockwise.</param>
+		/// <returns></returns>
 		void rotate(double_t up, double_t right, double_t clockwise) noexcept;
 
 		Camera& operator=(const Camera& copy) = delete;
 	private:
-		Camera(engine::Window& window, const glm::vec3& position, float_t fov);
-		Camera(const Camera& copy) = delete;
-
-		engine::Window& m_sourceWindow;
-
 		float_t m_FOV;
 		glm::vec3 m_position;
 

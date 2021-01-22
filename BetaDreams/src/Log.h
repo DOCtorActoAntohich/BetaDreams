@@ -8,7 +8,7 @@
 
 // spdlog/fmt gives many warnings.
 #pragma warning(push, 0)
-#pragma warning( disable : 26812 26812 26495 26451 6385)
+#pragma warning( disable : 26812 26812 26495 26451 6385 6387)
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_sinks.h>
